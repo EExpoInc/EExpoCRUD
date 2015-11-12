@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EExpoCrud-Commons"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EclipseLink 2.4.2 - Juno">
 		<attributes>
@@ -14,5 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/EExpoCrud-Libs/mysql-connector-java-5.1.37-bin.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
