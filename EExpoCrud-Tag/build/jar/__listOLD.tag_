@@ -1,0 +1,197 @@
+<%@tag import="eexpocrudOLD.DaoEntityAbs"%>
+<%@tag import="eexpocrudOLD.CrudfyTagHelper"%>
+<%@tag import="eexpocrudOLD.Crudfy.CrudTableToShow"%>
+<%@tag import="eexpocrudOLD.Crudfy.CrudObj"%>
+<%@tag import="eexpocrudOLD.Crudfy"%>
+<%@tag import="java.util.HashMap"%>
+<%@tag import="test.AdmFiltersAction"%>
+<%@tag language="java" pageEncoding="UTF-8" %>
+<%@ attribute name="beanClazz" required="true" type="java.lang.Class"%>
+<%@ attribute name="className" required="false" type="java.lang.String"%>
+<%@ attribute name="estimated" required="false" type="java.lang.Boolean"%>
+<%@ attribute name="id" required="false" type="java.lang.String"%>
+<%@ attribute name="daoManager" required="true" type="eexpocrud.DaoEntityAbs"%>
+ 
+  
+
+ 
+<%
+CrudfyTagHelper<?,?> helper = new CrudfyTagHelper(request, response, beanClazz, id, daoManager);
+CrudTableToShow table = helper.resolveCrudfy();
+
+/* helper.simpleDispatch("/WEB-INF/tags/toInclude.jsp", request, response); */
+
+
+String modalId = "modalId";   
+%>
+
+
+
+  
+  
+
+	<div class="panel panel-default">
+		<div class="panel-heading clearfix">
+			<div class="">
+				<div class="btn-group  pull-left">					
+					<h3 class="panel-title pull-left"> <%=beanClazz.getSimpleName()%> </h3>												
+				</div>
+				
+				<div class="pull-right">
+					
+					<div class="btn-group <%= table.totalRecords== 0 ? "hidden" : ""%>">
+						<button class="btn btn-primary" type="button">Total <span class="btn-primary badge" style="background-color: #FFF; color:#428BCA; "><%=table.totalRecords%></span></button>					
+					</div>
+					
+					<div class="btn-group">
+						<a href="#" class="btn btn-info" data-toggle="modal" data-target="#detailModal" data-iframe-src="./add.jsp" title="Get by Id"><span class="glyphicon glyphicon-screenshot"></span> Id</a> 
+					</div>
+
+					<div class="btn-group">
+						<a href="#" class="btn btn-success" data-toggle="modal" data-target="#detailModal" data-iframe-src="./add.jsp" title="Add"><span class="glyphicon glyphicon-plus"></span> Add</a> 
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		
+		
+		<div class="panel-body">	
+			<table class="table table-striped table-bordered table-hover " data-card-view="true">
+				<thead>
+					<tr>
+						<th class="text-center">Adm</th>
+						<%for(String _th: table.thList){  %>
+						<th><%=_th %></th>
+						<%} %>
+					</tr>	
+				</thead>
+				<tbody>						
+					<%for(CrudObj obj: table.objListSorted){ %>
+						<tr class="small">
+							<td class="text-center  col-md-2 col-sm-2">						
+								<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#<%=modalId%>" data-iframe-src="<%=helper.genReadLink(obj.id)%>" title="Read"><span class="glyphicon glyphicon-info-sign"></span> </a>							
+								<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#<%=modalId%>" data-iframe-src="./admFilter/read.jsp?id=<%=obj.id%>" title="Read"><span class="glyphicon glyphicon-info-sign"></span> </a>							
+								<a href="#" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#<%=modalId%>" data-iframe-src="./admFilter/edit.jsp?id=<%=obj.id%>"  title="Update"><span class="glyphicon glyphicon-edit"></span> </a>							
+								<a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#<%=modalId%>" data-iframe-src="./admFilter/exclude.jsp?id=<%=obj.id%>"  title="Delete"><span class="glyphicon glyphicon-remove-sign"></span> </a>								
+							 </td>
+						  <%for(String _th: table.thList){ %>
+						  <td><%=obj.field_ValueMap.get(_th)%></td> 
+						  <%} %>
+						</tr>
+					<%}%>
+				</tbody>
+			</table>
+		
+		</div>
+		
+		<!-- Navegacao entre pags -->
+		<div class="panel-footer text-center">
+			<%if(table.nav.isNeeded && !table.nav.isEstimated){%>			
+			<nav>
+			  <ul class="pagination">
+			    <li class="<%=table.nav.firstComposition? "disabled" : "" %>" >
+			    	<%if(!table.nav.firstComposition){ %>
+<%-- 			      <a href="<%=helper.genNavLink(table.nav.posBtnInit-1, table.nav.firstComposition)%>" aria-label="Previous"> --%>
+			      <a href="<%=helper.genNavLink(1, table.nav.firstComposition)%>" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			      	<%}else{ %>
+			      	<span aria-hidden="true">&laquo;</span>
+			      	<%} %>
+			    </li>
+			    
+			    <%for(int i=table.nav.posBtnInit; i<=table.nav.posBtnEnd; i++){%>
+			    	<%if(i == table.nav.btnActive){ %>
+			    		<li class="active"><span><%=i%><span class="sr-only">(current)</span></span></li>
+			    	<%}else{ %>
+			    		<li><a href="<%=helper.genNavLink(i)%>"><%=i%></a></li>
+			    	<%} %>
+			    <%}%>
+			    			    
+			    <!-- 			    
+			    <li class="<%=table.nav.lastComposition? "disabled" : "" %>">			    
+			    	<%if(!table.nav.lastComposition){ %>
+			      <a href="<%=helper.genNavLink(table.nav.posBtnEnd+1, table.nav.lastComposition)%>" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			      	<%}else{ %>
+			      	<span aria-hidden="true">&raquo;</span>
+			      	<%} %>
+			    </li>
+			     -->
+			    
+				<li class="<%=table.nav.lastComposition? "disabled" : "" %>">			    
+			    	<%if(!table.nav.lastComposition){ %>
+			      <a href="<%=helper.genNavLink(table.nav.qtdePagesTotal+1, table.nav.lastComposition)%>" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			      	<%}else{ %>
+			      	<span aria-hidden="true">&raquo;</span>
+			      	<%} %>
+			    </li>
+			    
+			    
+			  </ul>			
+			</nav>
+			<% } else if(table.nav.isEstimated){%>
+			<nav>
+				<ul class="pagination pagination-lg">
+				<li class="<%=table.nav.firstComposition? "disabled" : "" %>" >
+ 				    	<a href="?before=<%=table.getIdFirstItemPage()%>">
+				    		<span aria-hidden="true">&lang;</span>
+				    	</a>
+				    </li>
+				    <li >
+				    	<a href="http://eexponews.com">
+				    		<span aria-hidden="true">&exponentiale;&xscr;</span>
+				    	</a>
+				    </li>
+ 				    <li class="<%=table.nav.lastComposition? "disabled" : "" %>">
+				    	<a href="?after=<%=table.getIdLastItemPage()%>">
+				    		<span aria-hidden="true">&rang;</span>
+				    	</a>
+				    </li>
+			    </ul>
+			  </nav>
+			<%} %>
+		</div>
+	</div>
+	
+	
+	
+	
+		<div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="<%=modalId%>">
+  		<div class="modal-dialog ">
+	    	<div class="modal-content">
+			   	<div class="modal-header">			   	
+			   		<button type="button" class="btn btn-danger btn-xs pull-right" data-dismiss="modal" aria-label="Close">
+			   			<span aria-hidden="true" class="glyphicon glyphicon-remove"></span> 
+			   		</button>			   		
+		        	<h4 class="modal-title" id="modal-title"></h4>
+		      	</div>
+				<div class="modal-body">	    			    	    
+			    	<div class="embed-responsive embed-responsive-4by3">		    		
+		  				<iframe class="embed-responsive-item" id="iframeDetail"  ></iframe>
+					</div>
+				</div>
+	   	 	</div>
+	  	</div>
+	</div>
+	
+		<script>	
+		$('#<%=modalId%>').on('show.bs.modal', function (event) {
+			  var button = $(event.relatedTarget); 
+			  var recipient = button.data('iframe-src'); 
+			  var modalTitle = button.attr('title');
+			  var modal = $(this);
+			  modal.find('#iframeDetail').attr('src',  recipient);
+			  modal.find('#modal-title').html(modalTitle);			  
+		});
+	</script>
+	
+			
+	<jsp:doBody/>
+	
+
+

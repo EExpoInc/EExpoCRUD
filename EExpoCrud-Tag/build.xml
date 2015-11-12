@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!-- Configuration of the Ant build system to generate a Jar file -->
+<project name="EExpoCrud-Tag" default="CreateJar">
+	<tstamp>
+		<format property="time.stamp" pattern="yyyy-MM-dd_HH:mm:ss" />
+	</tstamp>
+
+	<target name="CreateJar" description="Create Jar file">
+		<mkdir dir="build/jar" />
+		<jar jarfile="build/jar/EExpoCrud-Tag_${time.stamp}.jar" basedir="./bin" />
+	</target>
+</project>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="EExpoCrud-WebTest">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="EExpoCrud-JPA2.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/EExpoCrud-JPA2.0/EExpoCrud-JPA2.0">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="javax.persistence_2.1.0.v201304241213.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/javax.persistence_2.1.0.v201304241213.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="EExpoCrud-Commons.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/EExpoCrud-Commons/EExpoCrud-Commons">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="EExpoCrud-Tag.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/EExpoCrud-Tag/EExpoCrud-Tag">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-beanutils-1.9.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/commons-beanutils-1.9.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-logging-1.2.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/commons-logging-1.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-lang3-3.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/commons-lang3-3.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="objectify-5.1.5.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/objectify-5.1.5.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-collections-3.2.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/commons-collections-3.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="commons-codec-1.4.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/commons-codec-1.4.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jodd-3.6.6.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/jodd-3.6.6.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="EExpoCrud-WebTest"/>
+        <property name="java-output-path" value="/EExpoCrud-WebTest/build/classes"/>
+    </wb-module>
+</project-modules>
