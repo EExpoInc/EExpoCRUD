@@ -39,12 +39,12 @@
 
 	<div class="container">
 		<div class="row">
-			<h3>Crud Filter</h3>
+			<h3>EExpoCRUD - EExpoNews.com</h3>
 		</div>
 
 		<%
 			String persistenceUnit = "EExpoCrud-JPA2.0";
-				JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class, Integer.class, persistenceUnit, 18);
+				JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class, Integer.class, persistenceUnit);
 				 
 				final EExpoCrudCfg<PostEntity, Integer> cfg = new EExpoCrudCfg<PostEntity, Integer>(request, response, jpaDAO); 
 				
@@ -94,7 +94,7 @@
 				return fogoBtn.actualEntityRow.id > 9 ? true : false;
 			}
 				});
-				
+				cfg.listPageCfg().limitList(5);
 				cfg.listPageCfg().groupBtn.rowBtns.add(fogoBtn);
 				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 3);
 				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 33); 

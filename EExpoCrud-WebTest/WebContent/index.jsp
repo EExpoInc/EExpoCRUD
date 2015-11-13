@@ -42,15 +42,16 @@
 		<%
 			String persistenceUnit = "EExpoCrud-JPA2.0";
 			
-				JpaDAO<UserEntity, Integer> jpaDAO = new JpaDAO<UserEntity, Integer>(UserEntity.class, Integer.class, persistenceUnit, 10);
+				JpaDAO<UserEntity, Integer> jpaDAO = new JpaDAO<UserEntity, Integer>(UserEntity.class, Integer.class, persistenceUnit, 5);
 				
-				final EExpoCrudCfg<UserEntity, Integer> cfg = new EExpoCrudCfg<UserEntity, Integer>(request, response, jpaDAO); 
+				final EExpoCrudCfg<UserEntity, Integer> cfg = new EExpoCrudCfg<UserEntity, Integer>(request, response, jpaDAO);
+				
 			
 			 
 			final EExpoRowButtonCfg<UserEntity> myCustomBtn = new EExpoRowButtonCfg<UserEntity>("custom",
 					"glyphicon glyphicon-chevron-up", new ActionableI<UserEntity>() {
 						@Override
-						public UserEntity action() {
+						public UserEntity action() { 
 							
 							return null;
 						}

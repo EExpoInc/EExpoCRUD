@@ -18,6 +18,10 @@ public class ListPageCfg<E extends Serializable, K extends Comparable<K>> implem
 		this.queryCfg = new QueryCfg<E, K>();
 	}
 	
+	public ListPageCfg<E , K> limitList(int limitList){
+		this.queryCfg.listLimitPerPage(limitList);		
+		return this;
+	}
 
 	
 	/**dispatch com a lista de obj e a lista de entities*/

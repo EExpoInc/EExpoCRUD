@@ -55,16 +55,20 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	// o listAction pega as config, gera a listagem, e manda p de volta p o
 	// taghelper ou p o dispatch jsp
 	
+	
+	
 	private void setupDefaultCfg() {
 		setupDefaultBtn();
 //		this.listPageCfg.queryCfg;
 		this.jpaDao.queryCfg(this.listPageCfg.queryCfg);
 	}
 	
+	
+	
 
 	private void setupDefaultBtn() { 
 		this.listPageCfg = new ListPageCfg<>(jpaDao.clone());
-		this.listPageCfg.queryCfg.listLimitPerPage(10);
+//		this.listPageCfg.queryCfg.listLimitPerPage(10);
 		
 		this.listPageCfg.groupBtn.createBtn(new EExpoButtonCfg<E>("create", "glyphicon glyphicon-plus",
 				new ActionableI<E>() {
