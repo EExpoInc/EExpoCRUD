@@ -26,26 +26,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <link
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <title>Crud Filter</title>
 </head>
 <body>
 
 	<div class="container">
 		<div class="row">
-			<h3>Crud Filter</h3> 
+			<h3>EExpoCRUD</h3> 
 		</div> 
 
-			<%
-				String persistenceUnit = "EExpoCrud-JPA2.0";
-			%>
+			<% String persistenceUnit = "EExpoCrud-JPA2.0"; %>
 
-  		 <crudfy:list jpaDao="<%=new JpaDAO<PageEntity, String>(PageEntity.class, String.class, persistenceUnit, 10)%>">
+  		 <crudfy:list jpaDao="<%=new JpaDAO<PageEntity, String>(PageEntity.class, String.class, persistenceUnit, 30)%>">
   		 </crudfy:list>
 	
 

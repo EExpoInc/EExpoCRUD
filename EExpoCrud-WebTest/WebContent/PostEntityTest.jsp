@@ -44,7 +44,7 @@
 
 		<%
 			String persistenceUnit = "EExpoCrud-JPA2.0";
-				JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class, Integer.class, persistenceUnit, 18);
+				JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class, Integer.class, persistenceUnit);
 				 
 				final EExpoCrudCfg<PostEntity, Integer> cfg = new EExpoCrudCfg<PostEntity, Integer>(request, response, jpaDAO); 
 				
@@ -98,7 +98,9 @@
 				cfg.listPageCfg().groupBtn.rowBtns.add(fogoBtn);
 				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 3);
 				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 33); 
-				cfg.listPageCfg().queryCfg.addWhere("status", WhereEnum.notIn, PostEntity.STATUS.restrito, PostEntity.STATUS.castigo);  
+				cfg.listPageCfg().queryCfg.addWhere("status", WhereEnum.notIn, PostEntity.STATUS.restrito, PostEntity.STATUS.castigo);
+				
+				cfg.listPageCfg().limitList(5);
 		%>
 
   		 <crudfy:list jpaDao="<%=jpaDAO%>" crudCfg="<%=cfg %>">
