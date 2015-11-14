@@ -38,7 +38,7 @@
 
 	<div class="container">
 		<div class="row">
-			<h3>EExpoCRUD</h3> 
+			<h3>EExpoCRUD - eexponews</h3> 
 		</div> 
   
 			<% String persistenceUnit = "EExpoCrud-JPA2.0"; %>
