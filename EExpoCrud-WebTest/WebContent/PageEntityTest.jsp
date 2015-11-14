@@ -40,7 +40,7 @@
 		<div class="row">
 			<h3>EExpoCRUD</h3> 
 		</div> 
-
+  
 			<% String persistenceUnit = "EExpoCrud-JPA2.0"; %>
 
   		 <crudfy:list jpaDao="<%=new JpaDAO<PageEntity, String>(PageEntity.class, String.class, persistenceUnit, 30)%>">
