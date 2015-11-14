@@ -30,13 +30,13 @@
 	rel="stylesheet">
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<title>Crud Filter</title>
+<title>EExpoCRUD</title>
 </head>
 <body>
 
 	<div class="container">
 		<div class="row">
-			<h3>Crud Filter</h3>
+			<h3>EExpoCRUD</h3>
 		</div>
 
 		<%
