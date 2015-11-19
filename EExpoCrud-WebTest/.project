@@ -6,6 +6,7 @@
 		<project>EExpoCrud-JPA2.0</project>
 		<project>EExpoCrud-Commons</project>
 		<project>EExpoCrud-Tag</project>
+		<project>EExpoForm-Tag</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

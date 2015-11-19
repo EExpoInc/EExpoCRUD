@@ -12,7 +12,7 @@ public abstract class ActionBase {
 	
 	
 	
-	protected abstract void execute();
+	protected abstract void executeBase();
 	
 	
 	public final String link() {
@@ -20,8 +20,11 @@ public abstract class ActionBase {
 		return "./MyController.MyActionLink/ + data.id" + "?uf="; // + data.uf;
 	}
 	
-	
-
+	public <B> B populateBean(Class<B> beanClass){
+		
+		this.req.getParameterMap(); // popula um bean com os dados do param esperados
+		return null;
+	}
 	
 	
 }

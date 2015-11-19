@@ -7,7 +7,7 @@ import java.util.List;
 import org.javatuples.Triplet;
 
 import test.deleteme.db.BlogPostEntity;
-import test.deleteme.fw.SimpleAction;
+import test.deleteme.fw.IoAction;
 import test.deleteme.mvc.BlogPostController;
 
 public class Main {
@@ -29,13 +29,13 @@ public class Main {
 		// SimpleAction<BlogPostEntity, Boolean> al = mc.createAction();
 		// al.result(null)
 		
-		SimpleAction<BlogPostEntity, Boolean> al = mc.createAction();
+		IoAction<BlogPostEntity, Boolean> al = mc.createAction();
 		System.out
 				.println("\nDevera ser gravado na aplication o seguinte obj q sera vinculado a url montada");
 		System.err.println(al.getClass().getName());
 		System.out.println("Qdo chamado, devera chamar o execute com o data preenchido.");
 		
-		SimpleAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>> al2 = mc.publishAction(pe);
+		IoAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>> al2 = mc.publishAction(pe);
 		System.out.println("\nDevera ser gravado na aplication o seguinte obj");
 		System.err.println(al2.getClass().getName());
 		System.out.println("Qdo chamado, devera chamar o execute com o data preenchido.");

@@ -35,6 +35,9 @@
         <dependent-module archiveName="jodd-3.6.6.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/EExpoCrud-Libs/jodd-3.6.6.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/EExpoForm-Tag/EExpoForm-Tag">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="EExpoCrud-WebTest"/>
         <property name="java-output-path" value="/EExpoCrud-WebTest/build/classes"/>
     </wb-module>

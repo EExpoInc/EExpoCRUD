@@ -24,5 +24,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/EExpoCrud-Commons"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EExpoCrud-JPA2.0"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EExpoCrud-Tag"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EExpoForm-Tag"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
