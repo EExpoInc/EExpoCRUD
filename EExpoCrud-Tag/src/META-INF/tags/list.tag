@@ -36,12 +36,16 @@
  
  
  <%
-		CrudfyTagHelper<?,?> tagHelper = new CrudfyTagHelper(request, response, jpaDao);
-		if(crudCfg != null){
-			tagHelper.cfg = crudCfg;
-		}
+ 	CrudfyTagHelper<?,?> tagHelper;
+ 	if(crudCfg != null){
+ 		tagHelper = new CrudfyTagHelper(request, response, crudCfg);
+ 	}else{
+ 		tagHelper = new CrudfyTagHelper(request, response, jpaDao);
+ 	}
+ 		
 		ListActionData<?, ?> data = tagHelper.getTable();
-		String modalId = "modalId_"+(new SecureRandom()).nextInt(1000);   
+		String modalId = "modalId_"+(new SecureRandom()).nextInt(1000);
+		String pu = jpaDao.persistenceUnit;
 %>
 
 
@@ -100,14 +104,14 @@
 							<tr class="small crudfyRow" title="Read" data-iframe-src= "${index}" >
 								<td class="text-center col-lg-1  col-md-1  col-xs-2 ">
 																							  
-									<% for(EExpoButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns){
+									<% for(EExpoRowButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns()){
 										EExpoButton<?> btn = new EExpoButton((EExpoRowButtonCfg)btnCfg, data.id_entityMap.get(obj.id));
 										if(btn.visible()){%> 											
  											<button class="<%=btn.cfg.buttonCssClass %><%= btn.disabled()?"disabled": "" %> crudfyRowBtn" 
  												<%if(!btn.disabled()){ %>
- 												data-toggle="modal" 
-												data-target="#<%=modalId%>"  
-												data-iframe-src="./?id=<%=obj.idEscaped()%>"  
+	 												data-toggle="modal" 
+													data-target="#<%=modalId%>"
+													data-iframe-src="<%=btn.cfg.link(obj.id, request)%>"  													  
 												<%} %>
 												title="<%=btn.cfg.name%>">
 												<span class="<%=btn.cfg.cssIcon%>"></span> 

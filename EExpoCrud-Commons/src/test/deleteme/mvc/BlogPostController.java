@@ -6,10 +6,10 @@ import test.deleteme.MyBeautyBean;
 import test.deleteme.bo.BlogPostBO;
 import test.deleteme.db.BlogPostEntity;
 import test.deleteme.fw.ActionBase;
-import test.deleteme.fw.IoAction;
+import test.deleteme.fw.IOAction;
 import test.deleteme.fw.ResultAction;
 
-public class BlogPostController {
+public class BlogPostController {  // STATIC OU N???
 	/*******
 	 * O action tem:
 	 * 
@@ -45,7 +45,7 @@ public class BlogPostController {
 		
 	}
 	
-	public ResultAction<BlogPostEntity> preEditAction() {
+	public static ResultAction<BlogPostEntity> preEditAction() {
 		return new ResultAction<BlogPostEntity>() {
 			@Override
 			protected BlogPostEntity execute() {
@@ -63,11 +63,12 @@ public class BlogPostController {
 				return pe;
 			}
 		};
-	}
+	} 
+	 
 	
-	public IoAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>> publishAction(
+	public IOAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>> publishAction(
 			final BlogPostEntity pe) {
-		return new IoAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>>(pe) {
+		return new IOAction<BlogPostEntity, Triplet<BlogPostEntity, Integer, String>>(pe) {
 			@Override
 			protected Triplet<BlogPostEntity, Integer, String> execute(BlogPostEntity pe) {
 				BlogPostBO bo = new BlogPostBO();
@@ -87,7 +88,7 @@ public class BlogPostController {
 	 * 
 	 */
 	
-	public static class MyCustomAction extends IoAction<BlogPostEntity, Boolean> {
+	public static class MyCustomAction extends IOAction<BlogPostEntity, Boolean> {
 		
 		public MyCustomAction(BlogPostEntity obj) {
 			super(obj);
@@ -99,8 +100,8 @@ public class BlogPostController {
 		}
 	}
 	
-	public IoAction<BlogPostEntity, Boolean> createAction() {
-		
+	public IOAction<BlogPostEntity, Boolean> createAction() {
+		 
 		return new MyCustomAction(new BlogPostEntity());
 	}
 	

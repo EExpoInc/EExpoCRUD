@@ -36,7 +36,7 @@ public class CrudfyServlet extends HttpServlet {
 	};
 	
 	public static enum ACT {
-		create, read, update, delete, preCreate, preUpdate, preDelete, list
+		create, read, update, delete, createPrepare, preUpdate, preDelete, list
 	};
 	
 	
@@ -60,7 +60,7 @@ public class CrudfyServlet extends HttpServlet {
 			case read: this.read(dc.id); break;
 			case update: this.update(dc.obj); break;
 			case delete: this.delete(dc.id); break;
-			case preCreate: this.preCreate(); break;
+			case createPrepare: this.preCreate(); break;
 			case preUpdate: this.preUpdate(dc.id); break;
 			case preDelete: this.preDelete(dc.id); break;
 		

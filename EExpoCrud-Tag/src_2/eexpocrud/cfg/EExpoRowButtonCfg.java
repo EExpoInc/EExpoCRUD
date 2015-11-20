@@ -12,11 +12,18 @@ public class EExpoRowButtonCfg<E> extends EExpoButtonCfg<E> {
 
 	
 	
-	
+
+	public EExpoRowButtonCfg(ActionableI<E> invokable) {
+		super(invokable);
+//		this.name = getClass().getName();
+		this.setup();
+	}
+
 	public EExpoRowButtonCfg(String name, ActionableI<E> invokable) {
 		super(name, invokable);
 		this.setup();
 	}
+
 	
 	public EExpoRowButtonCfg(String name, String cssIcon, String preMsg, String successMsg,
 			String failureMsg, ShowAt position, ActionableI<E> invokable) {
@@ -67,5 +74,7 @@ public class EExpoRowButtonCfg<E> extends EExpoButtonCfg<E> {
 	public E actualEntityRow(){
 		return actualEntityRow;
 	}
+	
+	
 	
 }

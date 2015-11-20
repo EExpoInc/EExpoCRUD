@@ -9,7 +9,6 @@ public abstract class ResultAction<R> extends ActionBase {
 	R result;
 	
 	
-	
 	protected final void executeBase(){  
 		//evita a chamada por fora
 	}
@@ -23,7 +22,7 @@ public abstract class ResultAction<R> extends ActionBase {
 	
 	@SuppressWarnings("unchecked") 
 	public static <R> R result(HttpServletRequest req){
-		return (R) req.getAttribute(IoAction.class.getCanonicalName());
+		return (R) req.getAttribute(IOAction.class.getCanonicalName());
 	}
 
 	

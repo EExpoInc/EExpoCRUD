@@ -28,6 +28,7 @@ public class ReadAction<E extends Serializable, ID extends Comparable<ID>> {
 	public ReadAction(HttpServletRequest req, HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
+		System.err.println("public ReadAction(HttpServletRequest req, HttpServletResponse resp) {");
 		// extractParams();
 	}
 	

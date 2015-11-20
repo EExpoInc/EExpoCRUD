@@ -36,29 +36,54 @@ public class CrudfyTagHelper <E extends Serializable, K extends Comparable<K> >{
 	
 	 
 	
-	
-	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao)  {
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, EExpoCrudCfg<E, K> cfg)  {
+		this(req, resp, cfg.jpaDao, false);
+		this.cfg = cfg;
+		saveCrudCfg();
 		
+	}
+	
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao, boolean resolveCrudCfg) {
 		this.req = req;
 		this.resp = resp;
 		this.jpaDao = dao;
 		this.act = (ListAction<E, K>) new ListAction<>(req, resp, dao);
 		this.data = this.act.genTable();  
-		 
-		String id = EExpoCrudCfg.genDefaultId(req);
-		
-		
-		EExpoCrudCfgManager<E,K> man = new EExpoCrudCfgManager<>();
-		EExpoCrudCfg<E, K> _cfg = man.getFromSession(req, id);
-		if(_cfg != null){
-			this.cfg = _cfg; 
-			this.cfg.refresh(req, resp, jpaDao);
-		}else{
-			this.cfg = new EExpoCrudCfg<E, K>(req, resp, dao);
-			man.saveCfg(cfg); 
+		if(resolveCrudCfg){
+			resolveCrudCfg();	
 		}
 		
 	}
+	
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao)  {
+		this(req, resp, dao, true);
+	}
+	
+	private void saveCrudCfg(){
+		String id = EExpoCrudCfg.genDefaultId(req);					
+		EExpoCrudCfgManager<E,K> man = new EExpoCrudCfgManager<>();
+		man.saveCfg(cfg);	
+	}
+	
+	private void resolveCrudCfg(){
+		String id = EExpoCrudCfg.genDefaultId(req);					
+		EExpoCrudCfgManager<E,K> man = new EExpoCrudCfgManager<>();
+
+		if(this.cfg == null){
+			
+			EExpoCrudCfg<E, K> _cfg = man.getFromSession(req, id);
+			if(_cfg != null){
+				this.cfg = _cfg; 
+				this.cfg.refresh(req, resp);//, jpaDao);
+			}else{
+				this.cfg = new EExpoCrudCfg<E, K>(req, resp, this.jpaDao);
+				man.saveCfg(cfg); 
+			}		
+
+		}
+	}
+	
+	
 	
 	public String genAfterLink(){
 		Map<String, String[]>  params = cleanUrlCrudfyParams();

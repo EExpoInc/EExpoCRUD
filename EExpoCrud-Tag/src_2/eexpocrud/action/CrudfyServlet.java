@@ -1,14 +1,24 @@
 package eexpocrud.action;
 
 import java.io.IOException;
+import java.util.Map;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.buf.UEncoder;
+
+import eexpocrud.CrudfyUtils;
 import eexpocrud.bo.CrudfyBO;
+import eexpocrud.cfg.EExpoButtonCfg;
+import eexpocrud.cfg.EExpoCrudCfg;
+import eexpocrud.cfg.EExpoCrudCfgManager;
+import eexpocrud.dao.impl.jpa.test.UserEntity;
+import eexpocrud.dao.impl.jpa.two.JpaDAO;
 
 
 
@@ -17,7 +27,9 @@ import eexpocrud.bo.CrudfyBO;
  * @author fulviolonghi 
  * 
  * url = /CrudfyServlet?(?(?[ACT]=[int])&(?type=[String]))
- *         /CrudfyServlet?edit=987&type=UsuarioEntity
+ *         /CrudfyServlet?edit=987
+ *         		&type=UsuarioEntity
+ *         		&crudfyCfgId=id
  * 
  * CrudfyController: 	pega os dados Strings da request, cria um ControlData e 
  * 						repassa p o BO. Sabe tb como formatar e lidar com o retorno do BO.
@@ -32,10 +44,11 @@ public class CrudfyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	   
 	
-	private CrudfyBO bo = new CrudfyBO();
+	
+	
 	
 	public static enum PARAMS {
-		type, act
+		type, act, 	pu, CRUD_CFG_ID
 	};
 	
 	public static String servletName(){
@@ -43,12 +56,30 @@ public class CrudfyServlet extends HttpServlet {
 	}
 
 	
-	public static enum ACT {
-		create, read, update, delete, preCreate, preUpdate, preDelete, list;
+	public  enum ACT {
+		
+		create, read, update, delete, updatePrepare, deletePrepare, list, createPrepare, CUSTOM;
+		
 		
 		public String toString(){
-			return servletName()+"?"+this.name()+"=";
+			if(this == CUSTOM){
+				return servletName()+"?";
+			}else{
+				return servletName()+"?"+this.name();	
+			}			
 		}
+		
+		public String servletName(){
+			return CrudfyServlet.servletName();
+		}
+		
+		
+//		protected String link(HttpServletRequest req){
+//			return req.getContextPath()+"/" +this.toString();
+//		}
+//		protected String link(Object id,HttpServletRequest req){
+//			return this.link(req)+"="+id;
+//		}
 	};
 	
 	
@@ -57,13 +88,14 @@ public class CrudfyServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		
-		
-		doControl(new ControlDataInput(request));
+		doControl(new ControlDataInput(request, response)); 
 		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
+		
+		doControl(new ControlDataInput(request, response));
 	}
 	
 	
@@ -71,18 +103,18 @@ public class CrudfyServlet extends HttpServlet {
 	private void doControl(ControlDataInput dc) {
 		switch (dc.act) {
 			case create: this.create(dc.obj); break;
-			case read: this.read(dc.id); break;
+			case read: this.read(dc.entityId); break;
 			case update: this.update(dc.obj); break;
-			case delete: this.delete(dc.id); break;
-			case preCreate: this.preCreate(); break;
-			case preUpdate: this.preUpdate(dc.id); break;
-			case preDelete: this.preDelete(dc.id); break;
+			case delete: this.delete(dc.entityId); break;
+			case createPrepare: this.createPrepare(); break;
+			case updatePrepare: this.updatePrepare(dc); break; 
+			case deletePrepare: this.deletePrepare(dc.entityId); break;
 		
-			default: this.bo.list(dc.nav); break;
+			default: break;
 		}
 	}
 
-	private void delete(String id) {
+	private void delete(Object id) {
 
 		
 	}
@@ -92,7 +124,7 @@ public class CrudfyServlet extends HttpServlet {
 		
 	}
 
-	private void read(String id) {
+	private void read(Object id) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -102,27 +134,59 @@ public class CrudfyServlet extends HttpServlet {
 		
 	}
 
-	private void preDelete(String id) {
-		CrudfyBO bo = new CrudfyBO();
-		bo.read(id); 
+	private void deletePrepare(Object id) {
+//		CrudfyBO bo = new CrudfyBO();
+//		bo.read(id); 
+		// TODO Auto-generated method stub
+		 
+	}
+
+	
+	private EExpoCrudCfg< ?, ?>  resolveCrudCfg(ControlDataInput dc){
+		String cfgId =  dc.req.getParameter(PARAMS.CRUD_CFG_ID.name());
+		EExpoCrudCfgManager<?,?> man = new EExpoCrudCfgManager<>();
+		EExpoCrudCfg< ?, ?>  cfg =man.getFromSession(dc.req, cfgId); 
+		cfg.refresh(dc.req, dc.resp);
+		return cfg;
+//		return 
+//		return (EExpoCrudCfg<?, ?>) req.getSession().getAttribute(cfgId);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void updatePrepare(ControlDataInput dc) {
+//		resolveCrudCfg(dc).
+		
+		EExpoCrudCfg< ?, ?>  cfg =resolveCrudCfg(dc);
+		
+		Object idEntity = CrudfyUtils.parseFromString(dc.entityId, cfg.jpaDao.idClass);
+		
+		CrudfyBO bo = new CrudfyBO(cfg.jpaDao.em, cfg.jpaDao.entityClass);
+		Object obj= bo.read(idEntity);
+//		UserEntity ue = (UserEntity) obj;
+//		System.out.println(ue.nome);
+		
+		Map<String, ?> map = cfg.listPageCfg.groupBtn.actionName_Btn;
+		for(Object v : map.values()){
+			EExpoButtonCfg<?> btn = (EExpoButtonCfg<?>) v;
+			btn.invokable.action(); 
+		}
+		
+//		System.out.println(cfg.listPageCfg.groupBtn.actionName_Btn); 
+		
 		// TODO Auto-generated method stub
 		
 	}
 
-	private void preUpdate(String id) {
-		CrudfyBO bo = new CrudfyBO();
-		bo.read(id); 
-		
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void preCreate() {
-
+	private void createPrepare() {
+ 
 		// TODO Auto-generated method stub
 		
 	}
 	
+	
+	private EntityManager resolveEntityManager(String pu){
+		return JpaDAO.getOrAddEMFactory(pu).createEntityManager();
+	}
 	
 	
 

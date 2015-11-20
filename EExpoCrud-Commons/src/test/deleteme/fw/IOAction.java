@@ -2,12 +2,12 @@ package test.deleteme.fw;
 
 
 
-public abstract class IoAction<I, O> extends ResultAction<O> {
+public abstract class IOAction<I, O> extends ResultAction<O> {
 	I input;
 	O output;
 
 	
-	protected IoAction(I input) {
+	protected IOAction(I input) { 
 		this.input = input;
 	}
 
@@ -24,7 +24,7 @@ public abstract class IoAction<I, O> extends ResultAction<O> {
 		return output;
 	}
 	 
-	protected IoAction<I, O> output(O output){
+	protected IOAction<I, O> output(O output){
 		this.output = output;
 		return this;
 	}

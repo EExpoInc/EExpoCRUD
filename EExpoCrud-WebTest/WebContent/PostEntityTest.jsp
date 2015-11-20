@@ -44,63 +44,64 @@
 
 		<%
 			String persistenceUnit = "EExpoCrud-JPA2.0";
-				JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class, Integer.class, persistenceUnit);
-				 
-				final EExpoCrudCfg<PostEntity, Integer> cfg = new EExpoCrudCfg<PostEntity, Integer>(request, response, jpaDAO); 
-				
-				/*** SUPORTE A CLASSE Q ESTENDE O OBJ ORIGINAL P MELHORAR A APRESENTACAO ***/
-				final EExpoRowButtonCfg<PostEntity> coracaoBtn = new EExpoRowButtonCfg<PostEntity>("custom2",
-				"glyphicon glyphicon-heart", null);
-				
-				coracaoBtn.action(new ActionableI<PostEntityForm>() {
-			@Override
-			public PostEntityForm action() {
-				PostEntityForm pef = new PostEntityForm();
-				CrudfyUtils.beanTransfusion(pef, coracaoBtn.actualEntityRow);
-				return pef;
-			}
-				});
-				
-				coracaoBtn.visible(new ConditionalI() {
-			@Override
-			public boolean execute() {
-				return coracaoBtn.actualEntityRow.id < 8 ? true : false;
-			}
-				});
-				
-				cfg.listPageCfg().groupBtn.rowBtns.add(coracaoBtn);
-				
-				
-				
-				final EExpoRowButtonCfg<PostEntity> fogoBtn = new EExpoRowButtonCfg<PostEntity>("eh fogo",
-				"glyphicon glyphicon-fire", null);
-				
-				fogoBtn.action(new ActionableI<PostEntityForm>() {
-			@Override
-			public PostEntityForm action() {
-				PostEntityForm pef = new PostEntityForm();
-				CrudfyUtils.beanTransfusion(pef, fogoBtn.actualEntityRow);
-				return pef;
-			}
-				}).buttonCssClass(ButtonBootstrapCssClass.success);
-				
-				fogoBtn.visible(new ConditionalI() {
-			@Override
-			public boolean execute() { 
-				return fogoBtn.actualEntityRow.id > 4  & fogoBtn.actualEntityRow.id < 20 ? true : false;
-			}
-				}).disable(new ConditionalI(){
-			public boolean execute(){
-				return fogoBtn.actualEntityRow.id > 9 ? true : false;
-			}
-				});
-				
-				cfg.listPageCfg().groupBtn.rowBtns.add(fogoBtn);
-				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 3);
-				cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 33); 
-				cfg.listPageCfg().queryCfg.addWhere("status", WhereEnum.notIn, PostEntity.STATUS.restrito, PostEntity.STATUS.castigo);
-				
-				cfg.listPageCfg().limitList(5);
+			JpaDAO<PostEntity, Integer> jpaDAO = new JpaDAO<PostEntity, Integer>(PostEntity.class,
+					Integer.class, persistenceUnit);
+			
+			final EExpoCrudCfg<PostEntity, Integer> cfg = new EExpoCrudCfg<PostEntity, Integer>(request,
+					response, jpaDAO);
+			
+			/*** SUPORTE A CLASSE Q ESTENDE O OBJ ORIGINAL P MELHORAR A APRESENTACAO ***/
+			final EExpoRowButtonCfg<PostEntity> coracaoBtn = new EExpoRowButtonCfg<PostEntity>("custom2",
+					"glyphicon glyphicon-heart", null);
+			
+			coracaoBtn.action(new ActionableI<PostEntityForm>() {
+				@Override
+				public PostEntityForm action() {
+					PostEntityForm pef = new PostEntityForm();
+					CrudfyUtils.beanTransfusion(pef, coracaoBtn.actualEntityRow);
+					return pef;
+				}
+			});
+			
+			coracaoBtn.visible(new ConditionalI() {
+				@Override
+				public boolean execute() {
+					return coracaoBtn.actualEntityRow.id < 8 ? true : false;
+				}
+			});	
+			
+			cfg.listPageCfg().groupBtn.addRowBtns(coracaoBtn);
+			
+			final EExpoRowButtonCfg<PostEntity> fogoBtn = new EExpoRowButtonCfg<PostEntity>("eh fogo",
+					"glyphicon glyphicon-fire", null);
+			
+			fogoBtn.action(new ActionableI<PostEntityForm>() {
+				@Override
+				public PostEntityForm action() {
+					PostEntityForm pef = new PostEntityForm();
+					CrudfyUtils.beanTransfusion(pef, fogoBtn.actualEntityRow);
+					return pef;
+				}
+			}).buttonCssClass(ButtonBootstrapCssClass.success);
+			
+			fogoBtn.visible(new ConditionalI() {
+				@Override
+				public boolean execute() {
+					return fogoBtn.actualEntityRow.id > 4 & fogoBtn.actualEntityRow.id < 20 ? true : false;
+				}
+			}).disable(new ConditionalI() {
+				public boolean execute() {
+					return fogoBtn.actualEntityRow.id > 9 ? true : false;
+				}
+			});
+			
+			cfg.listPageCfg().groupBtn.addRowBtns(fogoBtn);
+			cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 3);
+			cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 33);
+			cfg.listPageCfg().queryCfg.addWhere("status", WhereEnum.notIn, PostEntity.STATUS.restrito,
+					PostEntity.STATUS.castigo);
+			
+			cfg.listPageCfg().limitList(5);
 		%>
 
   		 <crudfy:list jpaDao="<%=jpaDAO%>" crudCfg="<%=cfg %>">

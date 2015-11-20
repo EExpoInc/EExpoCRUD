@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -162,6 +161,13 @@ public class CrudfyUtils {
 		Date d2 = new Date(System.currentTimeMillis());
 		System.out.println(universalFullDateFormat.format(parseFromString("2015-01-29", d2.getClass())));
 	}
+	
+	
+	
+//	public static Object parseFromString2Obj(String valueOriginal, Class<?> clazz) throws GenericParseException {
+//		return parseFromString(valueOriginal, clazz);
+//	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public static <C> C parseFromString(String valueOriginal, Class<C> clazz) throws GenericParseException {

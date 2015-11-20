@@ -16,8 +16,8 @@ public class EExpoCrudCfgManager <E extends Serializable,ID extends Comparable<I
 	
 	
 	
-	public void  saveCfg(EExpoCrudCfg<E,ID> cfg){
-		this.cfgsOnSession = CrudfyUtils.getFromSession(cfg.req, CFGS_ON_SESSION_ID);
+	void resolveCfgsOnSession(HttpServletRequest req){
+		this.cfgsOnSession = CrudfyUtils.getFromSession(req, CFGS_ON_SESSION_ID);
 		if(this.cfgsOnSession == null){
 			this.cfgsOnSession = new LinkedHashMap<String, EExpoCrudCfg<E,ID>>(){
 				@Override
@@ -26,16 +26,22 @@ public class EExpoCrudCfgManager <E extends Serializable,ID extends Comparable<I
 				}
 			};			
 		}
+
+	}
+	
+	public void  saveCfg(EExpoCrudCfg<E,ID> cfg){
+		resolveCfgsOnSession(cfg.req);
 		this.cfgsOnSession.put(cfg.id, cfg);
 		CrudfyUtils.saveOnSession(cfg.req, CFGS_ON_SESSION_ID, this.cfgsOnSession);
 	}
 	
 	
 	public EExpoCrudCfg<E,ID> getFromSession(HttpServletRequest req, String eexpoCrudCfgId){
-		this.cfgsOnSession = CrudfyUtils.getFromSession(req, CFGS_ON_SESSION_ID);
-		if(this.cfgsOnSession == null){
-			this.cfgsOnSession = new LinkedHashMap<>();
-		} 
+		resolveCfgsOnSession(req);
+//		this.cfgsOnSession = CrudfyUtils.getFromSession(req, CFGS_ON_SESSION_ID);
+//		if(this.cfgsOnSession == null){
+//			this.cfgsOnSession = new LinkedHashMap<>();
+//		} 
 		return this.cfgsOnSession.get(eexpoCrudCfgId);		
 	}
 	

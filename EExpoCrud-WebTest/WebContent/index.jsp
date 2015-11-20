@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page import="eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.JpaDAO"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg.ActionableI"%>
 <%@page import="eexpocrud.cfg.ConditionalI"%>
@@ -51,7 +52,7 @@
 					"glyphicon glyphicon-chevron-up", new ActionableI<UserEntity>() {
 						@Override
 						public UserEntity action() {
-							
+							System.err.println("final EExpoRowButtonCfg<UserEntity> myCustomBtn ");
 							return null;
 						}
 					}); 
@@ -67,7 +68,33 @@
 					return myCustomBtn.actualEntityRow.id > 9 ? true : false;
 				}
 			});			 
-			cfg.listPageCfg().groupBtn.rowBtns.add(myCustomBtn);
+			cfg.listPageCfg().groupBtn.addRowBtns(myCustomBtn);
+			
+			
+			
+			final EExpoRowButtonCfg<UserEntity> myCustomBtn2 = new EExpoRowButtonCfg<UserEntity>( new ActionableI<UserEntity>() {
+						@Override
+						public UserEntity action() {
+							System.err.println("final EExpoRowButtonCfg<UserEntity> myCustomBtn2 :) ");
+							return null;
+						}
+					}) ; 
+			myCustomBtn2.buttonCssClass = ButtonBootstrapCssClass.danger;
+			myCustomBtn2.cssIcon = "glyphicon glyphicon-star-empty";
+			
+			myCustomBtn2.visible(new ConditionalI() {
+				@Override 
+				public boolean execute() {
+					return myCustomBtn2.actualEntityRow.id < 20 ? true : false;
+				}
+			}).disable(new ConditionalI() {
+				@Override
+				public boolean execute() {
+					return myCustomBtn2.actualEntityRow.id > 2 ? true : false;
+				}
+			});			 
+			cfg.listPageCfg().groupBtn.addRowBtns(myCustomBtn2);
+			
 			
 			cfg.listPageCfg().groupBtn.deleteBtn().disable(new ConditionalI() {
 				@Override

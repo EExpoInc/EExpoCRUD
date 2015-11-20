@@ -1,11 +1,16 @@
 package eexpocrud.bo;
 
+import javax.persistence.EntityManager;
+
 import eexpocrud.action.CrudfyNavDataInput;
 
-public class CrudfyBO {
+public class CrudfyBO <E>{
+	EntityManager em;
+	Class<E> entityClass;
 	
-	public CrudfyBO() {
-		
+	public CrudfyBO(EntityManager em, Class<E> entityClass) {
+		this.em = em;
+		this.entityClass = entityClass;
 	}
 	
 	void create(Object obj) {
@@ -13,20 +18,6 @@ public class CrudfyBO {
 	}
 	
 	public void list(CrudfyNavDataInput nav) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	void preDelete(String id) {
-		
-	}
-	
-	void preUpdate(String id) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	void preCreate() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -41,7 +32,8 @@ public class CrudfyBO {
 		
 	}
 	
-	public void read(String id) {
+	public E read(Object id) {
+		return em.find(this.entityClass, id);
 		// TODO Auto-generated method stub
 		
 	}

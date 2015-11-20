@@ -13,8 +13,8 @@ public class ListPageCfg<E extends Serializable, K extends Comparable<K>> implem
 	public EExpoGroupBtn<E> groupBtn;
 	public QueryCfg<E, K> queryCfg;
 	
-	public ListPageCfg(JpaDAO<E, K> jpaDAO) {
-		this.groupBtn = new EExpoGroupBtn<E>();
+	public ListPageCfg(JpaDAO<E, K> jpaDAO, EExpoCrudCfg<E, K> cfg) {		
+		this.groupBtn = new EExpoGroupBtn<E>(cfg.id);
 		this.queryCfg = new QueryCfg<E, K>();
 	}
 	

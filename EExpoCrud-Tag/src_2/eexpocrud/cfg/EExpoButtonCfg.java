@@ -2,6 +2,11 @@ package eexpocrud.cfg;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
+import eexpocrud.action.CrudfyServlet;
+import eexpocrud.action.CrudfyServlet.ACT;
+
 /**
  * EExpoButtonCfg é usada para configurar a exibicao do botao, e tb para
  * direcionar a request p a action desejada atraves do invokable no momento q o
@@ -44,8 +49,11 @@ public class EExpoButtonCfg<E> implements Serializable{
 	public String preMsg;
 	public String successMsg;
 	public String failureMsg;
-	public String jspPathToDispatch;
-	ActionableI<? extends E> invokable;
+	public String linkPathToDispatch;
+	protected String eexpoCrudCfgId; 
+	public ACT act;
+	
+	public ActionableI<? extends E> invokable;
 	boolean modal;
 	ShowAt position = ShowAt.row;
 	public ButtonBootstrapCssClass buttonCssClass = ButtonBootstrapCssClass.info;
@@ -61,6 +69,7 @@ public class EExpoButtonCfg<E> implements Serializable{
 		this.successMsg = successMsg;
 		this.failureMsg = failureMsg;
 		this.invokable = invokable;
+		this.act = ACT.CUSTOM;
 		
 	}
 
@@ -72,6 +81,11 @@ public class EExpoButtonCfg<E> implements Serializable{
 		this(name, "", true, false, ShowAt.row, invokable);
 //		this.visible(false);
 	}
+	public EExpoButtonCfg(ActionableI<E> invokable) {
+		this(null, "", true, false, ShowAt.row, invokable);
+		this.name = "";
+//		this.visible(false);
+	}
 
 	
 	public EExpoButtonCfg(String name, String cssIcon, ActionableI<E> invokable) {
@@ -80,8 +94,10 @@ public class EExpoButtonCfg<E> implements Serializable{
 	
 	public EExpoButtonCfg(String name, String cssIcon, boolean modal, boolean target_blank, ShowAt position,
 			ActionableI<E> invokable) {
-		this.name = name;
-		this.cssIcon = cssIcon;
+		this(name, cssIcon, null, null, null, position, invokable);
+		
+//		this.name = name;
+//		this.cssIcon = cssIcon;
 		this.modal = modal; 
 	}
 	
@@ -95,32 +111,24 @@ public class EExpoButtonCfg<E> implements Serializable{
 		return this;
 		
 	}
-
 	
-//	public EExpoButtonCfg<E> disable(ConditionalI cond) {
-//		this.disableCond = cond;
-//		return this;
-//	}
-//	
-//	public EExpoButtonCfg<E> disable(boolean b) {
-//		this.disableCond = new ConditionalDefault(b);
-//		return this;
-//	}
-//	
-//	public EExpoButtonCfg<E> visible(ConditionalI cond) {
-//		this.visibleCond = cond;
-//		return this;
-//	}
-//	
-//	public EExpoButtonCfg<E> visible(boolean b) {
-//		this.visibleCond = new ConditionalDefault(b);
-//		return this;
-//	}
-//	
-//	public EExpoButtonCfg<E> buttonCssClass(ButtonCssClass buttonCssClass) {
-//		this.buttonCssClass = buttonCssClass;
-//		return this;
-//		
-//	}
+	
+	public String link(HttpServletRequest req){
+		String params = this.act.name();
+		if(this.act == ACT.CUSTOM){
+			if(invokable != null){
+				params =  this.invokable.getClass().getName();	
+			}
+		}
+		String crudCfgId = CrudfyServlet.PARAMS.CRUD_CFG_ID + "="+this.eexpoCrudCfgId;
+		
+		return req.getContextPath()+"/"+this.act.servletName()+"?" + crudCfgId +"&" +params;
+	}
+	
+	public String link(Object id,HttpServletRequest req){
+		return this.link(req)+"="+id;
+	}
+
+
 	
 }

@@ -17,19 +17,24 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	
 	public static int maxCfgPerSession = 100;
 	public String id;
-	protected ListPageCfg<E, ID> listPageCfg;
-	private transient JpaDAO<E, ID> jpaDao;
+	public ListPageCfg<E, ID> listPageCfg;
+	public JpaDAO<E, ID> jpaDao;
+	private String persistenceUnit; 
 	protected transient HttpServletRequest req;
 	protected transient HttpServletResponse resp;
+ 
+	
+	
 	
 	public EExpoCrudCfg(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {
-		System.out
-				.println("public EExpoCrudCfg(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {");
+		
 		this.req = req;
+		this.persistenceUnit = jpaDao.persistenceUnit;
+		setupDefaultId();
 		this.resp = resp;
 		this.jpaDao = jpaDao;
 		setupDefaultCfg();
-		setupDefaultId();
+		
 	}
 	
 	private void setupDefaultId() {
@@ -46,10 +51,11 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 		return this.listPageCfg;
 	}
 	
-	public void refresh(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {
+	public void refresh(HttpServletRequest req, HttpServletResponse resp){ //,  JpaDAO<E, ID> jpaDao) {
 		this.req = req;
 		this.resp = resp;
-		this.jpaDao = jpaDao;
+		this.jpaDao.refresh();
+//		this.jpaDao = jpaDao;
 	}
 	
 	// o listAction pega as config, gera a listagem, e manda p de volta p o
@@ -63,7 +69,7 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	
 
 	private void setupDefaultBtn() { 
-		this.listPageCfg = new ListPageCfg<>(jpaDao.clone());
+		this.listPageCfg = new ListPageCfg<>(jpaDao.clone(), this);
 		this.listPageCfg.queryCfg.listLimitPerPage(10);
 		
 		this.listPageCfg.groupBtn.createBtn(new EExpoButtonCfg<E>("create", "glyphicon glyphicon-plus",

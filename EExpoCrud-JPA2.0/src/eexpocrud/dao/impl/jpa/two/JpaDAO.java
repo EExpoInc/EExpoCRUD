@@ -31,7 +31,7 @@ public class JpaDAO<E extends Serializable, K extends Comparable<K>> implements 
 	public final Class<E> entityClass;
 	public final String persistenceUnit;
 	public final Class<K> idClass;
-	public final EntityManager em;
+	transient public  EntityManager em;
 	private static Map<String, EntityManagerFactory> emfMap = new TreeMap<>();
 	private QueryCfg<E, K> queryCfg;
 	private final String idName;
@@ -69,6 +69,10 @@ public class JpaDAO<E extends Serializable, K extends Comparable<K>> implements 
 		
 	}
 	
+	public void refresh(){
+		this.em = getOrAddEMFactory(persistenceUnit).createEntityManager();
+	}
+	
 	public JpaDAO<E, K> queryCfg(QueryCfg<E, K> queryCfg) {
 		this.queryCfg = queryCfg;
 		return this;
@@ -98,14 +102,14 @@ public class JpaDAO<E extends Serializable, K extends Comparable<K>> implements 
 	
 	public void update(E e) {
 		
-	}
+	} 
 	
 	public void delete(K id) {
 		
 	}
 	
 	public E read(K id) {
-		return null;
+		return em.find(this.entityClass, id);
 		
 	}
 	
@@ -133,7 +137,7 @@ public class JpaDAO<E extends Serializable, K extends Comparable<K>> implements 
 		return finalizeQuery(true).getResultList();
 	}
 	
-	private EntityManagerFactory getOrAddEMFactory(String persistenceUnit) {
+	public static EntityManagerFactory getOrAddEMFactory(String persistenceUnit) {
 		if (emfMap.containsKey(persistenceUnit)) {
 			return emfMap.get(persistenceUnit);
 		} else {
