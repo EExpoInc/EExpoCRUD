@@ -11,7 +11,7 @@ import eexpocrud.CrudfyUtils;
 import eexpocrud.dao.ObjectfyDAO;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
 
-public class ReadAction<E extends Serializable, ID extends Comparable<ID>> {
+public class ReadActionBak<E extends Serializable, ID extends Comparable<ID>> {
 	public static enum params {
 		after, before, begin, end
 	}
@@ -25,20 +25,20 @@ public class ReadAction<E extends Serializable, ID extends Comparable<ID>> {
 	
 	private boolean begin, end;
 	
-	public ReadAction(HttpServletRequest req, HttpServletResponse resp) {
+	public ReadActionBak(HttpServletRequest req, HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
 		System.err.println("public ReadAction(HttpServletRequest req, HttpServletResponse resp) {");
 		// extractParams();
 	}
 	
-	public ReadAction(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {
+	public ReadActionBak(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {
 		this(req, resp);
 		this.jpaDao = jpaDao;
 		extractParams();
 	}
 	
-	public ReadAction(HttpServletRequest req, HttpServletResponse resp, ObjectfyDAO<E, ID> dao) {
+	public ReadActionBak(HttpServletRequest req, HttpServletResponse resp, ObjectfyDAO<E, ID> dao) {
 		this(req, resp);
 		this.dao = dao;
 		extractParams();

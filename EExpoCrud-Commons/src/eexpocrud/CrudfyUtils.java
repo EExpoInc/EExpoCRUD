@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,6 +19,7 @@ import java.util.TreeMap;
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 
+import jodd.bean.BeanUtil;
 import eexpocrud.CrudAnnotation.CrudId;
 import eexpocrud.CrudAnnotation.DisplayType;
 import eexpocrud.CrudAnnotation.NotShow;
@@ -390,6 +392,43 @@ public class CrudfyUtils {
 		return t +"";
 	}
 
+	
+	
+	public static  <B extends Object> B  populate(Map<String, String[]> parameterMap, Class<B> beanClass) {
+		try {
+			return populate(parameterMap, beanClass.newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public static  <B> B  populate(Map<String, String[]> parameterMap, B emptyBean) {
+		
+		Map<String, Object> param = prepareToJodd(parameterMap);
+		BeanUtil.populateBean(emptyBean, param);
+
+		return emptyBean;
+	}
+	
+	private static Map<String, Object> prepareToJodd(Map<String, String[]> parameterMap) {
+		Map<String, Object> result = new LinkedHashMap<>();
+		for (String k : parameterMap.keySet()) {
+			String[] vs = parameterMap.get(k);
+			if (vs.length == 1) {
+				result.put(k, vs[0]);
+			} else {
+				result.put(k, vs);
+			}
+			if (result.get(k).equals("")) {
+				result.put(k, null);
+			}
+		}
+		return result;
+	}
+	
 	
 	//
 	// public static void main(String[] args) throws FusionBeanException {

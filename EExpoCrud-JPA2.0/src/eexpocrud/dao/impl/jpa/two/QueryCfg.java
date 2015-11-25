@@ -14,17 +14,17 @@ public class QueryCfg <E extends Serializable, K extends Comparable<K>> implemen
 		eq, neq, lt, le, gt, ge, like, notLike, in, notIn;
 	}
 	
-	public static  class Where{
+	public static  class Where implements Serializable{
 		protected WhereEnum cond;
 		protected String fieldName;
 		protected List<Comparable<?>> values;
 	}
 	
-	public static enum OrderCriteriaEnum{
+	public static enum OrderCriteriaEnum {
 		asc, desc;		
 	}
 	
-	public static class OrderCriteria{
+	public static class OrderCriteria implements Serializable{
 		protected OrderCriteriaEnum order;
 		protected String field;
 	}

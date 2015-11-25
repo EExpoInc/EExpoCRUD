@@ -14,6 +14,7 @@ import eexpocrud.action.ListAction;
 import eexpocrud.action.ListActionData;
 import eexpocrud.cfg.EExpoCrudCfg;
 import eexpocrud.cfg.EExpoCrudCfgManager;
+import eexpocrud.cfg.EExpoGroupBtn.DuplicateNameActionButtonException;
 import eexpocrud.dao.ObjectfyDAO;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
 
@@ -36,14 +37,14 @@ public class CrudfyTagHelper <E extends Serializable, K extends Comparable<K> >{
 	
 	 
 	
-	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, EExpoCrudCfg<E, K> cfg)  {
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, EExpoCrudCfg<E, K> cfg) throws DuplicateNameActionButtonException  {
 		this(req, resp, cfg.jpaDao, false);
 		this.cfg = cfg;
 		saveCrudCfg();
 		
 	}
 	
-	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao, boolean resolveCrudCfg) {
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao, boolean resolveCrudCfg) throws DuplicateNameActionButtonException {
 		this.req = req;
 		this.resp = resp;
 		this.jpaDao = dao;
@@ -55,7 +56,7 @@ public class CrudfyTagHelper <E extends Serializable, K extends Comparable<K> >{
 		
 	}
 	
-	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao)  {
+	public CrudfyTagHelper(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, K> dao) throws DuplicateNameActionButtonException  {
 		this(req, resp, dao, true);
 	}
 	
@@ -65,7 +66,7 @@ public class CrudfyTagHelper <E extends Serializable, K extends Comparable<K> >{
 		man.saveCfg(cfg);	
 	}
 	
-	private void resolveCrudCfg(){
+	private void resolveCrudCfg() throws DuplicateNameActionButtonException{
 		String id = EExpoCrudCfg.genDefaultId(req);					
 		EExpoCrudCfgManager<E,K> man = new EExpoCrudCfgManager<>();
 

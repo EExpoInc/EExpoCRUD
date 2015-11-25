@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eexpocrud.CrudfyUtils;
-import eexpocrud.action.ReadAction;
-import eexpocrud.cfg.EExpoButtonCfg.ActionableI;
+import eexpocrud.bo.CrudfyBO;
 import eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass;
+import eexpocrud.cfg.EExpoGroupBtn.DuplicateNameActionButtonException;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
 
 
@@ -19,17 +19,17 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	public String id;
 	public ListPageCfg<E, ID> listPageCfg;
 	public JpaDAO<E, ID> jpaDao;
-	private String persistenceUnit; 
+//	private String persistenceUnit; 
 	protected transient HttpServletRequest req;
 	protected transient HttpServletResponse resp;
  
 	
 	
 	
-	public EExpoCrudCfg(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) {
+	public EExpoCrudCfg(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) throws DuplicateNameActionButtonException {
 		
 		this.req = req;
-		this.persistenceUnit = jpaDao.persistenceUnit;
+//		this.persistenceUnit = jpaDao.persistenceUnit;
 		setupDefaultId();
 		this.resp = resp;
 		this.jpaDao = jpaDao;
@@ -61,53 +61,66 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	// o listAction pega as config, gera a listagem, e manda p de volta p o
 	// taghelper ou p o dispatch jsp
 	
-	private void setupDefaultCfg() {
+	private void setupDefaultCfg() throws DuplicateNameActionButtonException {
 		setupDefaultBtn();
 //		this.listPageCfg.queryCfg;
 		this.jpaDao.queryCfg(this.listPageCfg.queryCfg);
 	}
 	
 
-	private void setupDefaultBtn() { 
+	private void setupDefaultBtn() throws DuplicateNameActionButtonException { 
 		this.listPageCfg = new ListPageCfg<>(jpaDao.clone(), this);
 		this.listPageCfg.queryCfg.listLimitPerPage(10);
+//		final CrudfyBO<E> bo = new CrudfyBO<>(jpaDao.em, jpaDao.entityClass);
 		
-		this.listPageCfg.groupBtn.createBtn(new EExpoButtonCfg<E>("create", "glyphicon glyphicon-plus",
-				new ActionableI<E>() {
-					@Override
-					public E action() {
-						ReadAction<E, ID> act = new ReadAction<>(req, resp, jpaDao);
-						act.execute();
-						return null;
-					}
+		this.listPageCfg.groupBtn.createBtn(new EExpoButtonCfg<E>("create", Glyphicon.plus,
+				new ActionEntityPrepared<E>("crudfyCreate") {
+				@Override
+				public E action() {
+					bo.create(entity);
+					return entity;
+				}
 				}).buttonCssClass(ButtonBootstrapCssClass.success));
 		
 		this.listPageCfg.groupBtn.readBtn(new EExpoRowButtonCfg<E>("read", new ActionableI<E>() {
 			@Override
 			public E action() {
-				ReadAction<E, ID> act = new ReadAction<>(req, resp, jpaDao);
-				act.execute();
-				return null;
+				return bo.read(entityId);
 			}
 		}));
 		
-		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", "glyphicon glyphicon-edit",
-				new ActionableI<E>() {
+//		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", "glyphicon glyphicon-edit",
+//				new ActionableI<E>() {
+//					@Override
+//					public E action() {
+//						return null;
+//					}
+//				});
+
+		
+
+		
+		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", Glyphicon.edit,
+				new ActionEntityPrepared<E>("crudfyUpdate.jsp") {
 					@Override
 					public E action() {
-						return null;
+						this.bo.update(this.entity);
+						return this.entity;
 					}
 				});
+
 		updateBtn.buttonCssClass(ButtonBootstrapCssClass.warning);
 		
 		this.listPageCfg.groupBtn.updateBtn(updateBtn);
 		
 		this.listPageCfg.groupBtn.deleteBtn(
-				new EExpoRowButtonCfg<E>("delete", "glyphicon glyphicon-remove-sign", new ActionableI<E>() {
-					@Override
-					public E action() {
-						return null;
-					}
-				})).buttonCssClass(ButtonBootstrapCssClass.danger);
+				new EExpoRowButtonCfg<E>("delete", Glyphicon.remove_sign,
+						new ActionEntityPrepared<E>("crudfyDelete.jsp") {
+							@Override
+							public E action() {
+								this.bo.delete(this.entity);
+								return this.entity;
+							}
+						})).buttonCssClass(ButtonBootstrapCssClass.danger);
 	}
 }

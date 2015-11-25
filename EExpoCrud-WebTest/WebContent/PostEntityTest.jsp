@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 
+<%@page import="eexpocrud.cfg.Glyphicon"%>
+<%@page import="eexpocrud.cfg.ActionPrepared"%>
+<%@page import="eexpocrud.cfg.ActionableI"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.QueryCfg.WhereEnum"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.QueryCfg.Where"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.JpaDAO"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass"%>
 <%@page import="eexpocrud.cfg.EExpoRowButtonCfg"%>
-<%@page import="eexpocrud.cfg.EExpoButtonCfg.ActionableI"%>
 <%@page import="eexpocrud.cfg.ConditionalI"%>
 <%@page import="eexpocrud.CrudfyUtils"%>
 <%@page import="eexpocrud.form.PostEntityForm"%>
@@ -50,18 +52,21 @@
 			final EExpoCrudCfg<PostEntity, Integer> cfg = new EExpoCrudCfg<PostEntity, Integer>(request,
 					response, jpaDAO);
 			
+			
+			
+			
+			
 			/*** SUPORTE A CLASSE Q ESTENDE O OBJ ORIGINAL P MELHORAR A APRESENTACAO ***/
-			final EExpoRowButtonCfg<PostEntity> coracaoBtn = new EExpoRowButtonCfg<PostEntity>("custom2",
-					"glyphicon glyphicon-heart", null);
+			final EExpoRowButtonCfg<PostEntity> coracaoBtn = new EExpoRowButtonCfg<PostEntity>(null);
+			
 			
 			coracaoBtn.action(new ActionableI<PostEntityForm>() {
-				@Override
-				public PostEntityForm action() {
-					PostEntityForm pef = new PostEntityForm();
-					CrudfyUtils.beanTransfusion(pef, coracaoBtn.actualEntityRow);
-					return pef;
-				}
-			});
+				 @Override
+					public PostEntityForm action() {
+						// TODO Auto-generated method stub
+						return null;
+					}
+				});
 			
 			coracaoBtn.visible(new ConditionalI() {
 				@Override
@@ -69,11 +74,14 @@
 					return coracaoBtn.actualEntityRow.id < 8 ? true : false;
 				}
 			});	
+			coracaoBtn.cssIcon = Glyphicon.heart;
 			
 			cfg.listPageCfg().groupBtn.addRowBtns(coracaoBtn);
 			
 			final EExpoRowButtonCfg<PostEntity> fogoBtn = new EExpoRowButtonCfg<PostEntity>("eh fogo",
-					"glyphicon glyphicon-fire", null);
+					Glyphicon.fire, null);
+			
+			
 			
 			fogoBtn.action(new ActionableI<PostEntityForm>() {
 				@Override
@@ -83,6 +91,19 @@
 					return pef;
 				}
 			}).buttonCssClass(ButtonBootstrapCssClass.success);
+			
+			
+			fogoBtn.action(new ActionPrepared<PostEntityForm>("fogo.jsp"){
+				public PostEntityForm action(){
+					return null;
+				}
+				public PostEntityForm prepare(){
+					return null;
+				}
+			});
+				
+			
+			
 			
 			fogoBtn.visible(new ConditionalI() {
 				@Override

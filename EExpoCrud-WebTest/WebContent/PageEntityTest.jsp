@@ -4,7 +4,7 @@
 <%@page import="eexpocrud.dao.impl.jpa.test.PageEntity"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass"%>
 <%@page import="eexpocrud.cfg.EExpoRowButtonCfg"%>
-<%@page import="eexpocrud.cfg.EExpoButtonCfg.ActionableI"%>
+
 <%@page import="eexpocrud.cfg.ConditionalI"%>
 <%@page import="eexpocrud.CrudfyUtils"%>
 <%@page import="eexpocrud.form.PostEntityForm"%>

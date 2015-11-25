@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
+<%@page import="eexpocrud.cfg.ActionableI"%>
+<%@page import="eexpocrud.cfg.Glyphicon"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.JpaDAO"%>
-<%@page import="eexpocrud.cfg.EExpoButtonCfg.ActionableI"%>
 <%@page import="eexpocrud.cfg.ConditionalI"%>
 <%@page import="eexpocrud.cfg.EExpoRowButtonCfg"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg"%>
@@ -49,13 +50,11 @@
 			
 			 
 			final EExpoRowButtonCfg<UserEntity> myCustomBtn = new EExpoRowButtonCfg<UserEntity>("custom",
-					"glyphicon glyphicon-chevron-up", new ActionableI<UserEntity>() {
-						@Override
-						public UserEntity action() {
-							System.err.println("final EExpoRowButtonCfg<UserEntity> myCustomBtn ");
-							return null;
-						}
-					}); 
+					Glyphicon.chevron_up, new ActionableI<UserEntity>(){
+				public UserEntity action(){
+					return null;
+				}
+			}); 
 			
 			myCustomBtn.visible(new ConditionalI() {
 				@Override 
@@ -75,14 +74,14 @@
 			final EExpoRowButtonCfg<UserEntity> myCustomBtn2 = new EExpoRowButtonCfg<UserEntity>( new ActionableI<UserEntity>() {
 						@Override
 						public UserEntity action() {
-							System.err.println("final EExpoRowButtonCfg<UserEntity> myCustomBtn2 :) ");
+							System.err.println(this.entity.id+ ":id - final EExpoRowButtonCfg<UserEntity> myCustomBtn2 :) ");
 							return null;
 						}
 					}) ; 
-			myCustomBtn2.buttonCssClass = ButtonBootstrapCssClass.danger;
-			myCustomBtn2.cssIcon = "glyphicon glyphicon-star-empty";
+			myCustomBtn2.buttonCssClass = ButtonBootstrapCssClass.success;
+			myCustomBtn2.cssIcon = Glyphicon.star_empty;
 			
-			myCustomBtn2.visible(new ConditionalI() {
+			myCustomBtn2.visible(new ConditionalI() { 
 				@Override 
 				public boolean execute() {
 					return myCustomBtn2.actualEntityRow.id < 20 ? true : false;
@@ -90,7 +89,7 @@
 			}).disable(new ConditionalI() {
 				@Override
 				public boolean execute() {
-					return myCustomBtn2.actualEntityRow.id > 2 ? true : false;
+					return myCustomBtn2.actualEntityRow.id > 8 ? true : false;
 				}
 			});			 
 			cfg.listPageCfg().groupBtn.addRowBtns(myCustomBtn2);

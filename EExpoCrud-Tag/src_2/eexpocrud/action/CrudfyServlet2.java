@@ -14,7 +14,6 @@ import eexpocrud.CrudfyUtils;
 import eexpocrud.bo.CrudfyBO;
 import eexpocrud.cfg.EExpoButtonCfg;
 import eexpocrud.cfg.EExpoCrudCfg;
-import eexpocrud.cfg.EExpoCrudCfgManager;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
 
 
@@ -36,50 +35,108 @@ import eexpocrud.dao.impl.jpa.two.JpaDAO;
  *         
  */  
 
-@SuppressWarnings("serial")
-@WebServlet("/CrudfyServlet")
-public class CrudfyServlet extends HttpServlet {
-	
+@WebServlet("/CrudfyServlet2")
+public class CrudfyServlet2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	   
 	
+	
+	
+	
 	public static enum PARAMS {
-		act, crudCfgId, entityId, prepare
+		type, act, 	pu, CRUD_CFG_ID
 	};
 	
 	public static String servletName(){
-
-		
-		return CrudfyServlet.class.getSimpleName();
+		return CrudfyServlet2.class.getSimpleName();
 	}
 
+	
+	public  enum ACT {
+		
+		create, read, update, delete, updatePrepare, deletePrepare, list, createPrepare, CUSTOM;
+		
+		
+		public String toString(){
+			if(this == CUSTOM){
+				return servletName()+"?";
+			}else{
+				return servletName()+"?"+this.name();	
+			}			
+		}
+		
+		public String servletName(){
+			return CrudfyServlet2.servletName();
+		}
+		
+		
+//		protected String link(HttpServletRequest req){
+//			return req.getContextPath()+"/" +this.toString();
+//		}
+//		protected String link(Object id,HttpServletRequest req){
+//			return this.link(req)+"="+id;
+//		}
+	};
+	
+	
+	
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		
-		doControl(new CrudfyData(request, response)); 
+		doControl(new ControlDataInputOLD(request, response)); 
 		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		
-		doControl(new CrudfyData(request, response));
+		doControl(new ControlDataInputOLD(request, response));
 	}
 	
 	
 	
-	private void doControl(CrudfyData cd) {
-		EExpoCrudCfg< ?, ?>  cfg = cd.eexpoCrudCfg();
-		Object entityId = CrudfyUtils.parseFromString(cd.entityId, cfg.jpaDao.idClass);
-		CrudfyBO bo = new CrudfyBO(cfg.jpaDao.em, cfg.jpaDao.entityClass);
+	private void doControl(ControlDataInputOLD dc) {
+//		switch (dc.act) {
+//			case create: this.create(dc.obj); break;
+//			case read: this.read(dc.entityId); break;
+//			case update: this.update(dc.obj); break;
+//			case delete: this.delete(dc.entityId); break;
+//			case createPrepare: this.createPrepare(); break;
+//			case updatePrepare: this.updatePrepare(dc); break; 
+//			case deletePrepare: this.deletePrepare(dc.entityId); break;
+//		
+//			default: break;
+//		}
 	}
 
-	
-	
-	
-	
-	
-	
+	private void delete(Object id) {
+
+		
+	}
+
+	private void update(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void read(Object id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void create(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void deletePrepare(Object id) {
+//		CrudfyBO bo = new CrudfyBO();
+//		bo.read(id); 
+		// TODO Auto-generated method stub
+		 
+	}
+
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

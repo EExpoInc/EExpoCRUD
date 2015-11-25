@@ -17,5 +17,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/EExpoCrud-Libs/jodd-3.6.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

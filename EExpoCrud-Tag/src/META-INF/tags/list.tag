@@ -107,14 +107,14 @@
 									<% for(EExpoRowButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns()){
 										EExpoButton<?> btn = new EExpoButton((EExpoRowButtonCfg)btnCfg, data.id_entityMap.get(obj.id));
 										if(btn.visible()){%> 											
- 											<button class="<%=btn.cfg.buttonCssClass %><%= btn.disabled()?"disabled": "" %> crudfyRowBtn" 
+ 											<button class="<%=btn.cfg.buttonCssClass%> <%= btn.disabled()?"disabled": "" %> crudfyRowBtn" 
  												<%if(!btn.disabled()){ %>
 	 												data-toggle="modal" 
 													data-target="#<%=modalId%>"
-													data-iframe-src="<%=btn.cfg.link(obj.id, request)%>"  													  
+													data-iframe-src="<%=btn.cfg.linkPrepare(obj.id, request) %>"  													  
 												<%} %>
 												title="<%=btn.cfg.name%>">
-												<span class="<%=btn.cfg.cssIcon%>"></span> 
+												<span class="<%=btn.cfg.cssIcon.cssClass()%>"></span> 
 											</button>
 										<% }
 									}

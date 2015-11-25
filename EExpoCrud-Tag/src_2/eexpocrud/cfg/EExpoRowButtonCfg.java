@@ -25,19 +25,19 @@ public class EExpoRowButtonCfg<E> extends EExpoButtonCfg<E> {
 	}
 
 	
-	public EExpoRowButtonCfg(String name, String cssIcon, String preMsg, String successMsg,
+	public EExpoRowButtonCfg(String name, Glyphicon cssIcon, String preMsg, String successMsg,
 			String failureMsg, ShowAt position, ActionableI<E> invokable) {
 		super(name, cssIcon, preMsg, successMsg, failureMsg, position, invokable);
 		this.setup();
 		
 	}
 	
-	public EExpoRowButtonCfg(String name, String cssIcon, ActionableI<E> invokable) {
+	public EExpoRowButtonCfg(String name, Glyphicon cssIcon, ActionableI<E> invokable) {
 		super(name, cssIcon, true, false, ShowAt.row, invokable);
 		this.setup();
 	}
 	
-	public EExpoRowButtonCfg(String name, String cssIcon, boolean modal, boolean target_blank,
+	public EExpoRowButtonCfg(String name, Glyphicon cssIcon, boolean modal, boolean target_blank,
 			ShowAt position, ActionableI<E> invokable) {
 		super(name, cssIcon, modal, target_blank, position, invokable);
 		this.setup();

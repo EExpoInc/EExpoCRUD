@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import eexpocrud.action.CrudfyServlet.ACT;
-
 @SuppressWarnings("serial")
 public class EExpoGroupBtn<E> implements Serializable {
 	EExpoButtonCfg<E> createBtn;
@@ -34,13 +32,17 @@ public class EExpoGroupBtn<E> implements Serializable {
 	}
 	
 	
-	private void addBtns(ArrayList<? super EExpoRowButtonCfg<E>> listToAdd, EExpoButtonCfg<E> btn) throws DuplicateNameActionButtonException {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void addBtns(ArrayList listToAdd, EExpoButtonCfg<E> btn) throws DuplicateNameActionButtonException {
+		if(btn.name == null){
+			btn.name = btn.invokable.getClass().getName();
+		}
 		if (actionName_Btn.containsKey(btn.name)) {			
 			throw new DuplicateNameActionButtonException(btn.name);
 		} else {
 			btn.eexpoCrudCfgId = this.eexpoCrudCfgId;
 			this.actionName_Btn.put(btn.name, btn);			
-			listToAdd.add((EExpoRowButtonCfg<E>) btn);
+			listToAdd.add(btn);
 		}
 	}
 	
@@ -76,35 +78,38 @@ public class EExpoGroupBtn<E> implements Serializable {
 		return deleteBtn;
 	}
 	
-	public EExpoButtonCfg<E> createBtn(EExpoButtonCfg<E> createBtnNew) {
+	public EExpoButtonCfg<E> createBtn(EExpoButtonCfg<E> createBtnNew) throws DuplicateNameActionButtonException {
 		createBtnNew.eexpoCrudCfgId = this.eexpoCrudCfgId;
-		createBtnNew.act = ACT.createPrepare;
-		this.createBtn = createBtnNew;
-		this.headerBtns.add(createBtnNew);
+//		createBtnNew.act = ACT.createPrepare;
+		this.createBtn = createBtnNew; 
+		this.addHeaderBtns(createBtnNew);
+//		this.headerBtns.add(createBtnNew);
 		return this.createBtn;
 	}
 	
 	public EExpoRowButtonCfg<E> readBtn(EExpoRowButtonCfg<E> readBtnNew) {
 		readBtnNew.eexpoCrudCfgId = this.eexpoCrudCfgId;
-		readBtnNew.act = ACT.read;
+//		readBtnNew.act = ACT.read;
 		this.readBtn = readBtnNew;
 		this.lineBtn = readBtnNew;
 		return this.readBtn;
 	}
 	
-	public EExpoRowButtonCfg<E> updateBtn(EExpoRowButtonCfg<E> updateBtnNew) {
+	public EExpoRowButtonCfg<E> updateBtn(EExpoRowButtonCfg<E> updateBtnNew) throws DuplicateNameActionButtonException {
 		updateBtnNew.eexpoCrudCfgId = this.eexpoCrudCfgId;
-		updateBtnNew.act = ACT.updatePrepare;
+//		updateBtnNew.act = ACT.updatePrepare;
 		this.updateBtn = updateBtnNew;
-		this.rowBtns.add(updateBtnNew);
+		this.addRowBtns(updateBtnNew);
+//		this.rowBtns.add(updateBtnNew); 
 		return this.updateBtn;
 	}
 	
-	public EExpoRowButtonCfg<E> deleteBtn(EExpoRowButtonCfg<E> deleteBtnNew) {
+	public EExpoRowButtonCfg<E> deleteBtn(EExpoRowButtonCfg<E> deleteBtnNew) throws DuplicateNameActionButtonException {
 		deleteBtnNew.eexpoCrudCfgId = this.eexpoCrudCfgId;
-		deleteBtnNew.act = ACT.deletePrepare;
-		this.deleteBtn = deleteBtnNew;
-		this.rowBtns.add(deleteBtnNew);
+//		deleteBtnNew.act = ACT.deletePrepare;
+		this.deleteBtn = deleteBtnNew; 
+//		this.rowBtns.add(deleteBtnNew);
+		this.addRowBtns(deleteBtn);
 		return this.deleteBtn;
 	}
 	

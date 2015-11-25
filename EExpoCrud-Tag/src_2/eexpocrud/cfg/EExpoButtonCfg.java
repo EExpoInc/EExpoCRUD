@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 
 import eexpocrud.action.CrudfyServlet;
-import eexpocrud.action.CrudfyServlet.ACT;
 
 /**
  * EExpoButtonCfg é usada para configurar a exibicao do botao, e tb para
@@ -19,13 +18,6 @@ import eexpocrud.action.CrudfyServlet.ACT;
  */
 @SuppressWarnings("serial")
 public class EExpoButtonCfg<E> implements Serializable{
-	
-	public static interface ActionableI<E> extends Serializable{
-
-		 E action();
-		
-	}
-
 	
 	public static enum ShowAt {
 		row, top
@@ -45,13 +37,13 @@ public class EExpoButtonCfg<E> implements Serializable{
 	}
 	
 	public String name;
-	public String cssIcon;
+	public Glyphicon cssIcon;
 	public String preMsg;
 	public String successMsg;
 	public String failureMsg;
 	public String linkPathToDispatch;
 	protected String eexpoCrudCfgId; 
-	public ACT act;
+//	public ACT act;
 	
 	public ActionableI<? extends E> invokable;
 	boolean modal;
@@ -61,7 +53,7 @@ public class EExpoButtonCfg<E> implements Serializable{
 //	ConditionalI visibleCond;
 //	E actualRow;
 	
-	public EExpoButtonCfg(String name, String cssIcon, String preMsg, String successMsg, String failureMsg,
+	public EExpoButtonCfg(String name, Glyphicon cssIcon, String preMsg, String successMsg, String failureMsg,
 			ShowAt position, ActionableI<E> invokable) {
 		this.name = name;
 		this.cssIcon = cssIcon;
@@ -69,7 +61,7 @@ public class EExpoButtonCfg<E> implements Serializable{
 		this.successMsg = successMsg;
 		this.failureMsg = failureMsg;
 		this.invokable = invokable;
-		this.act = ACT.CUSTOM;
+//		this.act = ACT.CUSTOM;
 		
 	}
 
@@ -78,21 +70,21 @@ public class EExpoButtonCfg<E> implements Serializable{
 	 * botao inline ou usado de outras formas. Ideal p cadastrar uma action facilitada
 	 */
 	public EExpoButtonCfg(String name,  ActionableI<E> invokable) {
-		this(name, "", true, false, ShowAt.row, invokable);
+		this(name, null, true, false, ShowAt.row, invokable);
 //		this.visible(false);
 	}
 	public EExpoButtonCfg(ActionableI<E> invokable) {
-		this(null, "", true, false, ShowAt.row, invokable);
-		this.name = "";
+		this(null, null, true, false, ShowAt.row, invokable);
+//		this.name = null;
 //		this.visible(false);
 	}
 
 	
-	public EExpoButtonCfg(String name, String cssIcon, ActionableI<E> invokable) {
+	public EExpoButtonCfg(String name, Glyphicon cssIcon, ActionableI<E> invokable) {
 		this(name, cssIcon, true, false, ShowAt.row, invokable);
 	}
 	
-	public EExpoButtonCfg(String name, String cssIcon, boolean modal, boolean target_blank, ShowAt position,
+	public EExpoButtonCfg(String name, Glyphicon cssIcon, boolean modal, boolean target_blank, ShowAt position,
 			ActionableI<E> invokable) {
 		this(name, cssIcon, null, null, null, position, invokable);
 		
@@ -114,19 +106,23 @@ public class EExpoButtonCfg<E> implements Serializable{
 	
 	
 	public String link(HttpServletRequest req){
-		String params = this.act.name();
-		if(this.act == ACT.CUSTOM){
-			if(invokable != null){
-				params =  this.invokable.getClass().getName();	
-			}
-		}
-		String crudCfgId = CrudfyServlet.PARAMS.CRUD_CFG_ID + "="+this.eexpoCrudCfgId;
+		String crudCfgIdParam = CrudfyServlet.PARAMS.crudCfgId + "="+this.eexpoCrudCfgId;
+		String actNameParam = CrudfyServlet.PARAMS.act + "="+this.name;
 		
-		return req.getContextPath()+"/"+this.act.servletName()+"?" + crudCfgId +"&" +params;
+		return req.getContextPath()+"/"+CrudfyServlet.servletName()+"?" + crudCfgIdParam +"&" +actNameParam;
 	}
 	
+	public String linkPrepare(Object id, HttpServletRequest req){
+		String result = this.link(id, req);
+		
+		if (this.invokable instanceof ActionEntityPrepared || this.invokable instanceof ActionPrepared) {
+			result += "&" + CrudfyServlet.PARAMS.prepare + "="+true;
+		}
+		
+		return result;
+	}
 	public String link(Object id,HttpServletRequest req){
-		return this.link(req)+"="+id;
+		return this.link(req) + "&" + CrudfyServlet.PARAMS.entityId + "=" + id;
 	}
 
 
