@@ -63,7 +63,7 @@ public class CrudfyData {
 		}
 	}
 
-
+ 
 	public EExpoCrudCfg< ?, ?> eexpoCrudCfg(){
 		return this.eexpoCrudCfg;
 	}
