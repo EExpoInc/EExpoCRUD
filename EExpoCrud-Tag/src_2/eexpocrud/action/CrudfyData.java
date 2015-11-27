@@ -59,7 +59,7 @@ public class CrudfyData {
 			
 			btnCfg.invokable.entity(request.getParameterMap(), btnCfg.invokable.entity);
 			this.entity = btnCfg.invokable.action();
-			
+			 
 		}
 	}
 
