@@ -99,9 +99,9 @@
 					</thead>
 					<tbody>		
 						<%for(CrudObj<?> obj: data.id_objMap.values()){%>
+																		  
 																		 
-																		 
-							<tr class="small crudfyRow" title="Read" data-iframe-src= "${index}" >
+							<tr class="small crudfyRow" title="Read" data-iframe-src= "<%=tagHelper.cfg.listPageCfg().groupBtn.lineBtn.linkPrepare(obj.id, request)%>" >
 								<td class="text-center col-lg-1  col-md-1  col-xs-2 ">
 																							  
 									<% for(EExpoRowButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns()){

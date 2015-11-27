@@ -1,11 +1,14 @@
 package eexpocrud.bo;
 
+import java.io.Serializable;
+
 import javax.persistence.EntityManager;
 
 import eexpocrud.action.CrudfyNavDataInput;
 
-public class CrudfyBO <E>{
-	EntityManager em;
+@SuppressWarnings("serial")
+public class CrudfyBO <E> implements Serializable{
+	transient EntityManager em;
 	public Class<E> entityClass;
 	
 	public CrudfyBO(EntityManager em, Class<E> entityClass) {
@@ -28,6 +31,9 @@ public class CrudfyBO <E>{
 	}
 	
 	public void update(Object obj) {
+		this.em.getTransaction().begin();
+		this.em.merge(obj);
+		this.em.getTransaction().commit();
 		// TODO Auto-generated method stub
 		
 	}

@@ -82,10 +82,11 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 				}
 				}).buttonCssClass(ButtonBootstrapCssClass.success));
 		
-		this.listPageCfg.groupBtn.readBtn(new EExpoRowButtonCfg<E>("read", new ActionableI<E>() {
+		this.listPageCfg.groupBtn.readBtn(new EExpoRowButtonCfg<E>("read", new ActionEntityPrepared<E>("./crudfyRead.jsp") {
 			@Override
 			public E action() {
-				return bo.read(entityId);
+				return null;
+//				return bo.read(entityId);
 			}
 		}));
 		
@@ -101,7 +102,7 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 
 		
 		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", Glyphicon.edit,
-				new ActionEntityPrepared<E>("crudfyUpdate.jsp") {
+				new ActionEntityPrepared<E>("./crudfyUpdatePrepare.jsp") {
 					@Override
 					public E action() {
 						this.bo.update(this.entity);
@@ -115,7 +116,7 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 		
 		this.listPageCfg.groupBtn.deleteBtn(
 				new EExpoRowButtonCfg<E>("delete", Glyphicon.remove_sign,
-						new ActionEntityPrepared<E>("crudfyDelete.jsp") {
+						new ActionEntityPrepared<E>("./crudfyDeletePrepare.jsp") {
 							@Override
 							public E action() {
 								this.bo.delete(this.entity);

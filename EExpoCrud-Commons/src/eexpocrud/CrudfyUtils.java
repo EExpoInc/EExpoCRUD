@@ -1,5 +1,6 @@
 package eexpocrud;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -17,8 +18,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.persistence.Id;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import jodd.bean.BeanException;
 import jodd.bean.BeanUtil;
 import eexpocrud.CrudAnnotation.CrudId;
 import eexpocrud.CrudAnnotation.DisplayType;
@@ -408,10 +414,24 @@ public class CrudfyUtils {
 	public static  <B> B  populate(Map<String, String[]> parameterMap, B emptyBean) {
 		
 		Map<String, Object> param = prepareToJodd(parameterMap);
-		BeanUtil.populateBean(emptyBean, param);
+		try{
+			BeanUtil.populateBean(emptyBean, param);	
+		}catch(BeanException e){
+			for(String k: param.keySet()){
+				populateField(emptyBean, k, param.get(k));
+			}
+		}
+		 
 
 		return emptyBean;
 	}
+	
+	public static <B> void  populateField(B emptyBean, String fieldName, Object fieldValue) {
+//		BeanUtil.setPropertyForcedSilent(emptyBean, fieldName, fieldValue);
+		BeanUtil.setDeclaredPropertySilent(emptyBean, fieldName, fieldValue);
+	}
+	
+	
 	
 	private static Map<String, Object> prepareToJodd(Map<String, String[]> parameterMap) {
 		Map<String, Object> result = new LinkedHashMap<>();
@@ -429,6 +449,31 @@ public class CrudfyUtils {
 		return result;
 	}
 	
+	
+	public static void simpleDispatch(Class<?> c, HttpServletRequest req, HttpServletResponse res) {
+		simpleDispatch(c.getSimpleName(), req, res);
+		
+	}
+	
+	public static void simpleDispatch(String path, HttpServletRequest req, HttpServletResponse res) {
+		try {
+//			simpleDispatch(path, (HttpServletRequest) req, (HttpServletResponse) res);
+			RequestDispatcher dispatcher = req.getRequestDispatcher( path);
+			
+			dispatcher.forward(req, res);
+
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+//	public static void simpleDispatch(String path, HttpServletRequest req, HttpServletResponse res)
+//			throws ServletException, IOException {
+//		RequestDispatcher dispatcher = req.getRequestDispatcher(req.getContextPath() + "/" + path);
+//		dispatcher.forward(req, res);
+//	}
 	
 	//
 	// public static void main(String[] args) throws FusionBeanException {

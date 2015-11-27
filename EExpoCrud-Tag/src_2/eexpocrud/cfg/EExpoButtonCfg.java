@@ -41,7 +41,7 @@ public class EExpoButtonCfg<E> implements Serializable{
 	public String preMsg;
 	public String successMsg;
 	public String failureMsg;
-	public String linkPathToDispatch;
+	public String jspToDispatch;
 	protected String eexpoCrudCfgId; 
 //	public ACT act;
 	

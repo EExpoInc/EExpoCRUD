@@ -21,6 +21,8 @@
 
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC" />
 			<property name="eclipselink.jdbc.batch-writing.size" value="1000" />
+			<property name="eclipselink.query-results-cache" value="false"/>
+			
 <!-- 			 <property name="eclipselink.logging.level" value="FINE" /> 
 			 <property name="eclipselink.logging.level.sql" value="FINE"/>
  -->			 

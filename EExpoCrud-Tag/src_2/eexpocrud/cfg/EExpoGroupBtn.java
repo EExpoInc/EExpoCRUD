@@ -14,7 +14,7 @@ public class EExpoGroupBtn<E> implements Serializable {
 	protected ArrayList<EExpoButtonCfg<E>> addtionalBtns = new ArrayList<>();
 	protected ArrayList<EExpoButtonCfg<E>> headerBtns = new ArrayList<>();
 	protected ArrayList<EExpoRowButtonCfg<E>> rowBtns = new ArrayList<>();
-	EExpoButtonCfg<E> lineBtn;
+	public EExpoButtonCfg<E> lineBtn;
 	E rowEntity;
 	protected String eexpoCrudCfgId;
 	
@@ -34,6 +34,13 @@ public class EExpoGroupBtn<E> implements Serializable {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void addBtns(ArrayList listToAdd, EExpoButtonCfg<E> btn) throws DuplicateNameActionButtonException {
+		registerBtn(btn);
+		listToAdd.add(btn);
+		
+	}
+	
+	
+	private void registerBtn(EExpoButtonCfg<E> btn) throws DuplicateNameActionButtonException{
 		if(btn.name == null){
 			btn.name = btn.invokable.getClass().getName();
 		}
@@ -42,8 +49,9 @@ public class EExpoGroupBtn<E> implements Serializable {
 		} else {
 			btn.eexpoCrudCfgId = this.eexpoCrudCfgId;
 			this.actionName_Btn.put(btn.name, btn);			
-			listToAdd.add(btn);
+			
 		}
+		
 	}
 	
 	public void addHeaderBtns(EExpoButtonCfg<E> btn) throws DuplicateNameActionButtonException {
@@ -87,11 +95,12 @@ public class EExpoGroupBtn<E> implements Serializable {
 		return this.createBtn;
 	}
 	
-	public EExpoRowButtonCfg<E> readBtn(EExpoRowButtonCfg<E> readBtnNew) {
+	public EExpoRowButtonCfg<E> readBtn(EExpoRowButtonCfg<E> readBtnNew) throws DuplicateNameActionButtonException {
 		readBtnNew.eexpoCrudCfgId = this.eexpoCrudCfgId;
 //		readBtnNew.act = ACT.read;
 		this.readBtn = readBtnNew;
 		this.lineBtn = readBtnNew;
+		this.registerBtn(readBtnNew);
 		return this.readBtn;
 	}
 	

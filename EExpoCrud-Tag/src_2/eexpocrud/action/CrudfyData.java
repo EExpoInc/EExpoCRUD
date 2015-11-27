@@ -15,6 +15,7 @@ public class CrudfyData {
 	String entityId;
 	Object entityIdObj;
 	Object entity;
+	Class<?> entityClass;
 	Boolean prepare = false;
 	String crudCfgId;
 	HttpServletRequest request;
@@ -26,12 +27,18 @@ public class CrudfyData {
 	
 	
 	public CrudfyData(HttpServletRequest request, HttpServletResponse response) {
+		
 		this.request = request;
 		this.response = response;
-		CrudfyUtils.populate(request.getParameterMap(), this);
 		
-		this.entityIdObj = CrudfyUtils.parseFromString(this.entityId, eexpoCrudCfg().jpaDao.idClass);
-		this.bo = new CrudfyBO(eexpoCrudCfg().jpaDao.em, eexpoCrudCfg().jpaDao.entityClass);
+		
+//		System.out.println(request.getQueryString());
+//		System.out.println(request.getParameterMap());
+		CrudfyUtils.populate(request.getParameterMap(), this);
+		this.bo = new CrudfyBO(resolveEExpoCrudCfg(request, response).jpaDao.em, resolveEExpoCrudCfg(request, response).jpaDao.entityClass);
+		
+		this.entityIdObj = CrudfyUtils.parseFromString(this.entityId, resolveEExpoCrudCfg(request, response).jpaDao.idClass);
+		this.entityClass = eexpoCrudCfg.jpaDao.entityClass;
 
 		EExpoButtonCfg<?> btnCfg =  eexpoCrudCfg.listPageCfg.groupBtn.actionName_Btn.get(act);
 		
@@ -41,24 +48,37 @@ public class CrudfyData {
 		btnCfg.invokable.entity(bo.read(btnCfg.invokable.entityId));
 		
 		if(prepare){
-			ap =  (ActionPrepared<?>) btnCfg.invokable;
+			ap =  (ActionPrepared<?>) btnCfg.invokable; 	
 			this.entity = ap.prepare();
+			request.setAttribute(ActionPrepared.ENTITY_ATTR, this.entity);
+			request.setAttribute(ActionPrepared.ACTION_FORM_ATTR, btnCfg.link(ap.entityId, request));  
+			CrudfyUtils.simpleDispatch(ap.jspToDispatch, request, response);
+//			CrudfyUtils.simpleDispatch("./editPrepare.jsp", request, response);
 		}else{
+//			this.eexpoCrudCfg.
 			
-			btnCfg.invokable.action();
+			btnCfg.invokable.entity(request.getParameterMap(), btnCfg.invokable.entity);
+			this.entity = btnCfg.invokable.action();
+			
 		}
 	}
 
 
-
-
 	public EExpoCrudCfg< ?, ?> eexpoCrudCfg(){
+		return this.eexpoCrudCfg;
+	}
+
+	public static EExpoCrudCfg< ?, ?> eexpoCrudCfg(String crudCfgId, HttpServletRequest request, HttpServletResponse response) {
+		EExpoCrudCfgManager<?,?> man = new EExpoCrudCfgManager<>();
+		EExpoCrudCfg< ?, ?>  cfg =man.getFromSession(request, crudCfgId); 
+		cfg.refresh(request, response);
+		return cfg;			
+
+		
+	}
+	public EExpoCrudCfg< ?, ?> resolveEExpoCrudCfg(HttpServletRequest request, HttpServletResponse response) {
 		if(eexpoCrudCfg == null){
-			EExpoCrudCfgManager<?,?> man = new EExpoCrudCfgManager<>();
-			EExpoCrudCfg< ?, ?>  cfg =man.getFromSession(request, crudCfgId); 
-			cfg.refresh(request, response);
-			this.eexpoCrudCfg = cfg;
-			return cfg;			
+			return this.eexpoCrudCfg = eexpoCrudCfg(crudCfgId, request, response);
 		}else{
 			return this.eexpoCrudCfg;
 		}
