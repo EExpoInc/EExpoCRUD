@@ -26,6 +26,7 @@ public class CrudfyData {
 	
 	
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CrudfyData(HttpServletRequest request, HttpServletResponse response) {
 		
 		this.request = request;
@@ -50,15 +51,13 @@ public class CrudfyData {
 		if(prepare){
 			ap =  (ActionPrepared<?>) btnCfg.invokable; 	
 			this.entity = ap.prepare();
-			request.setAttribute(ActionPrepared.ENTITY_ATTR, this.entity);
+			request.setAttribute(ActionPrepared.ENTITY_ATTR, eexpoCrudCfg.showAsView(this.entity));
 			request.setAttribute(ActionPrepared.ACTION_FORM_ATTR, btnCfg.link(ap.entityId, request));  
 			CrudfyUtils.simpleDispatch(ap.jspToDispatch, request, response);
-//			CrudfyUtils.simpleDispatch("./editPrepare.jsp", request, response);
 		}else{
-//			this.eexpoCrudCfg.
-			
 			btnCfg.invokable.entity(request.getParameterMap(), btnCfg.invokable.entity);
 			this.entity = btnCfg.invokable.action();
+			CrudfyUtils.simpleDispatch("./crudfyRefresh.jsp", request, response);
 			 
 		}
 	}

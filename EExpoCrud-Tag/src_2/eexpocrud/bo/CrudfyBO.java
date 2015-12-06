@@ -21,26 +21,24 @@ public class CrudfyBO <E> implements Serializable{
 	}
 	
 	public void list(CrudfyNavDataInput nav) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void delete(Object obj) {
-		// TODO Auto-generated method stub
-		
+		this.em.getTransaction().begin();
+		this.em.remove(obj);
+		this.em.getTransaction().commit();
 	}
 	
 	public void update(Object obj) {
 		this.em.getTransaction().begin();
-		this.em.merge(obj);
+		this.em.persist(obj);
 		this.em.getTransaction().commit();
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public E read(Object id) {
 		return em.find(this.entityClass, id);
-		// TODO Auto-generated method stub
 		
 	}
 	

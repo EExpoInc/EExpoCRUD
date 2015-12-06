@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +21,6 @@ import java.util.TreeMap;
 import javax.persistence.Id;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,7 +34,8 @@ import eexpocrud.CrudAnnotation.Show;
 public class CrudfyUtils {
 	public static final String INPUT_ORIGINAL_SUFIX = "_ORIGINAL";
 	public static final String VALUEOF_METHOD = "valueOf";
-	public static final String PATTERN_DATE = "yyyy-MM-dd";
+	public static final String PATTERN_DATE = "YYYY-MM-dd";
+//	public static final String DATE_FORMAT = "YYYY-MM-DD_hh:mm:ss";
 	public static final String PATTERN_FULLDATE = PATTERN_DATE + "_hh:mm:ss";
 	public static final SimpleDateFormat universalDateFormat = new SimpleDateFormat(PATTERN_DATE);
 	public static final SimpleDateFormat universalFullDateFormat = new SimpleDateFormat(PATTERN_FULLDATE);
@@ -324,7 +325,9 @@ public class CrudfyUtils {
 	// }
 	
 	public static Field findIdField(Class<?> entityClass) {
-		Field[] fs = entityClass.getDeclaredFields();
+		
+//		Field[] fs = entityClass.getDeclaredFields();
+		List<Field> fs = getAllFields(entityClass);
 		for (Field f : fs) {
 			if (isIdField(f)) {
 				return f;
@@ -332,6 +335,34 @@ public class CrudfyUtils {
 		}
 		return null;
 	}
+	
+	
+	public static List<Field> getAllFields(Class<?> entityClass){
+		ArrayList<Field> fieldList = new ArrayList<>();
+		ArrayList<Field> fieldResult = new ArrayList<>();
+		Map<String, Field> name_FieldMap = new HashMap<>();		
+//		ArrayList<String> fieldNameList = new ArrayList<>();
+		fieldList.addAll(Arrays.asList(entityClass.getDeclaredFields()));
+		
+
+		for(Field f:fieldList){
+			name_FieldMap.put(f.getName(), f);
+			fieldResult.add(f);
+		}
+
+//		fieldList.addAll(Arrays.asList(entity.getClass().getFields()));
+		fieldList  = new ArrayList<>(Arrays.asList(entityClass.getClass().getFields()));
+
+		for(Field f:fieldList){
+			if(!name_FieldMap.keySet().contains(f.getName())){
+				name_FieldMap.put(f.getName(), f);	
+				fieldResult.add(f);
+			}			
+		}
+		
+		return fieldResult;
+	}
+	
 	
 	public static boolean isIdField(Field field) {
 		if (field.isAnnotationPresent(CrudId.class) || field.isAnnotationPresent(Id.class)
@@ -341,6 +372,12 @@ public class CrudfyUtils {
 			return false;
 		}
 	}
+	
+	
+
+	
+	
+	
 	
 	
 	/**
@@ -428,6 +465,16 @@ public class CrudfyUtils {
 	
 	public static <B> void  populateField(B emptyBean, String fieldName, Object fieldValue) {
 //		BeanUtil.setPropertyForcedSilent(emptyBean, fieldName, fieldValue);
+		try {
+			if(emptyBean.getClass().getField(fieldName).getType().equals(Date.class)){
+				fieldValue = (new SimpleDateFormat(PATTERN_FULLDATE)).parse(fieldValue.toString());
+			} 
+		} catch (NoSuchFieldException | SecurityException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		BeanUtil.setDeclaredPropertySilent(emptyBean, fieldName, fieldValue);
 	}
 	

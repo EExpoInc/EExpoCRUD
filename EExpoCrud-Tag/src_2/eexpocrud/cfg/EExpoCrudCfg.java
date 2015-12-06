@@ -6,10 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eexpocrud.CrudfyUtils;
-import eexpocrud.bo.CrudfyBO;
 import eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass;
 import eexpocrud.cfg.EExpoGroupBtn.DuplicateNameActionButtonException;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
+import eexpocrudOLD.Crudfy;
 
 
 @SuppressWarnings("serial")
@@ -22,7 +22,8 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 //	private String persistenceUnit; 
 	protected transient HttpServletRequest req;
 	protected transient HttpServletResponse resp;
- 
+	
+	public Class<? extends E> viewClass;
 	
 	
 	
@@ -60,6 +61,22 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	
 	// o listAction pega as config, gera a listagem, e manda p de volta p o
 	// taghelper ou p o dispatch jsp
+	
+	
+	public Object showAsView(Object entity){
+		if(viewClass != null){
+			E obj = null;
+			try {
+				obj = viewClass.newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {		
+				e.printStackTrace();
+			}
+			CrudfyUtils.beanTransfusion(obj, entity);
+			return obj;			
+		}else{
+			return entity;
+		}
+	}
 	
 	private void setupDefaultCfg() throws DuplicateNameActionButtonException {
 		setupDefaultBtn();
@@ -115,13 +132,19 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 		this.listPageCfg.groupBtn.updateBtn(updateBtn);
 		
 		this.listPageCfg.groupBtn.deleteBtn(
-				new EExpoRowButtonCfg<E>("delete", Glyphicon.remove_sign,
-						new ActionEntityPrepared<E>("./crudfyDeletePrepare.jsp") {
-							@Override
-							public E action() {
-								this.bo.delete(this.entity);
-								return this.entity;
-							}
-						})).buttonCssClass(ButtonBootstrapCssClass.danger);
+				new EExpoRowButtonCfg<E>("delete", Glyphicon.remove_sign, new ActionEntityPrepared<E>(
+						"./crudfyDeletePrepare.jsp") {
+					@Override
+					public E action() {
+						this.bo.delete(this.entity);
+						return this.entity;
+					}
+				})).buttonCssClass(ButtonBootstrapCssClass.danger);
 	}
+	
+	
+	
+	
+	
+	
 }

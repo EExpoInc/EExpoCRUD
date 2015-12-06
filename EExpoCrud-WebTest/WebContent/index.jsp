@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<%@page import="eexpocrud.dao.impl.jpa.test.UserForm"%>
+<%@page import="eexpocrud.cfg.ActionEntityPrepared"%>
 <%@page import="eexpocrud.cfg.ActionableI"%>
 <%@page import="eexpocrud.cfg.Glyphicon"%>
 <%@page import="eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass"%>
@@ -69,7 +71,13 @@
 			});			 
 			cfg.listPageCfg().groupBtn.addRowBtns(myCustomBtn);
 			
-			
+/* 			cfg.listPageCfg.groupBtn.updateBtn().invokable = new ActionEntityPrepared<UserForm>("./crudfyUpdatePrepare.jsp") {
+				@Override
+				public UserForm action() {
+					this.bo.update(this.entity);
+					return this.entity;
+				}
+			}; */
 			
 			final EExpoRowButtonCfg<UserEntity> myCustomBtn2 = new EExpoRowButtonCfg<UserEntity>( new ActionableI<UserEntity>() {
 						@Override

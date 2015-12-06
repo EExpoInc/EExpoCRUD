@@ -17,24 +17,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
- <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
- <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> 
-<script type="text/javascript" src="./bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
- <link href="./bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
- -->
-
-
-	<title>Test Form</title>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<link
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<title>Read</title>
 </head>
 <body> 
  	
 	<div class="container">
 		<div class="row">
-			<h3>Update</h3>
+			<h3>Read</h3>
 		</div>
-		<ex:formBase bean="<%=entity%>" action="<%=actionForm%>"/>
+		<ex:formBase bean="<%=entity%>" action="<%=actionForm%>" />
 		
 	</div>
 </body>

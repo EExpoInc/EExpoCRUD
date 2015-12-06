@@ -2,6 +2,7 @@ package eexpocrud.action;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -70,7 +71,13 @@ public class ListActionData<E extends Object, ID extends Comparable<ID>> {
 			try {
 				
 				if (field.get(entity) != null) {
-					result.field_ValueMap.put(field.getName(), field.get(entity).toString());
+					if(field.getType().equals(Date.class)){
+						Date d = (Date) field.get(entity);						
+						result.field_ValueMap.put(field.getName(), CrudfyUtils.universalFullDateFormat.format(d));
+					}else{
+						result.field_ValueMap.put(field.getName(), field.get(entity).toString());	
+					}
+					
 				} else {
 					result.field_ValueMap.put(field.getName(), null);
 				}

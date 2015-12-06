@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page import="eexpocrud.dao.impl.jpa.test.UserForm"%>
 <%@page import="eexpocrud.dao.impl.jpa.two.JpaDAO"%>
 <%@page import="eexpocrud.dao.impl.jpa.test.UserEntity"%>
 <%@page import="eexpocrud.cfg.EExpoCrudCfg"%>
@@ -36,9 +37,13 @@
 
 		<%
 			String persistenceUnit = "EExpoCrud-JPA2.0";
+		JpaDAO<UserEntity, Integer> jpaDAO = new JpaDAO<UserEntity, Integer>(UserEntity.class, Integer.class, persistenceUnit);
+		
+		final EExpoCrudCfg<UserEntity, Integer> cfg = new EExpoCrudCfg<UserEntity, Integer>(request, response, jpaDAO);
+		cfg.viewClass = UserForm.class;
 		%>
 
-  		 <crudfy:list jpaDao="<%=new JpaDAO<UserEntity, Integer>(UserEntity.class, Integer.class, persistenceUnit, 1000)%>">
+  		 <crudfy:list jpaDao="<%=jpaDAO%>" crudCfg="<%=cfg%>">
 		</crudfy:list>   
  
 

@@ -70,8 +70,8 @@ public class CrudfyServlet extends HttpServlet {
 	
 	private void doControl(CrudfyData cd) {
 		EExpoCrudCfg< ?, ?>  cfg = cd.eexpoCrudCfg();
-		Object entityId = CrudfyUtils.parseFromString(cd.entityId, cfg.jpaDao.idClass);
-		CrudfyBO bo = new CrudfyBO(cfg.jpaDao.em, cfg.jpaDao.entityClass);
+//		Object entityId = CrudfyUtils.parseFromString(cd.entityId, cfg.jpaDao.idClass);
+//		CrudfyBO bo = new CrudfyBO(cfg.jpaDao.em, cfg.jpaDao.entityClass);
 	}
 
 	
