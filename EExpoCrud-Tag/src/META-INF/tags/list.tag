@@ -1,6 +1,7 @@
+<%@tag import="eexpocrud.cfg.EExpoHeaderButton"%>
+<%@tag import="eexpocrud.cfg.EExpoRowButton"%>
 <%@tag import="eexpocrud.action.CrudfyServlet"%>
 <%@tag import="eexpocrud.cfg.EExpoRowButtonCfg"%>
-<%@tag import="eexpocrud.cfg.EExpoButton"%>
 <%@tag import="eexpocrud.cfg.EExpoButtonCfg"%>
 <%@tag import="eexpocrud.action.ListAction"%>
 <%@tag import="java.security.SecureRandom"%>
@@ -69,13 +70,25 @@
 						</button>					
 					</div>
  --%>					
-					<div class="btn-group  <%=data.id_objMap.isEmpty()?"hidden": "" %>">
+ 
+		<% for(EExpoButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.headerBtns()){
+ 						EExpoHeaderButton btn = new EExpoHeaderButton(btnCfg); 
+ 						%>
+ 					<div class="btn-group">
+						<a href="#" class="btn <%=btn.cfg.buttonCssClass%>"						
+							data-toggle="modal" 
+							data-target="#<%=modalId%>" 
+							data-iframe-src="<%=btn.cfg.link(request)%>" 
+							title="<%=btn.cfg.name%>">
+								<span class="glyphicon glyphicon-plus"></span> <%=btn.cfg.name%>
+						</a> 
+					</div>
+		<%}%>
+ 
+<%-- 					<div class="btn-group  <%=data.id_objMap.isEmpty()?"hidden": "" %>">
 						<a href="#" class="btn btn-info" data-toggle="modal" data-target="#detailModal" data-iframe-src="./add.jsp" title="Get by Id"><span class="glyphicon glyphicon-screenshot"></span> Id</a> 
 					</div>
-
-					<div class="btn-group">
-						<a href="#" class="btn btn-success" data-toggle="modal" data-target="#detailModal" data-iframe-src="./add.jsp" title="Add"><span class="glyphicon glyphicon-plus"></span> Add</a> 
-					</div>
+ --%>
 				</div>
 			</div>
 		</div> 
@@ -105,9 +118,9 @@
 								<td class="text-center col-lg-1  col-md-1  col-xs-2 ">
 																							  
 									<% for(EExpoRowButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns()){
-										EExpoButton<?> btn = new EExpoButton((EExpoRowButtonCfg)btnCfg, data.id_entityMap.get(obj.id));
+										EExpoRowButton<?> btn = new EExpoRowButton((EExpoRowButtonCfg)btnCfg, data.id_entityMap.get(obj.id));
 										if(btn.visible()){%> 											
- 											<button class="<%=btn.cfg.buttonCssClass%> <%= btn.disabled()?"disabled": "" %> crudfyRowBtn" 
+ 											<button class="<%=btn.cfg.buttonCssClass.xs()%> <%= btn.disabled()?"disabled": "" %> crudfyRowBtn" 
  												<%if(!btn.disabled()){ %>
 	 												data-toggle="modal" 
 													data-target="#<%=modalId%>"

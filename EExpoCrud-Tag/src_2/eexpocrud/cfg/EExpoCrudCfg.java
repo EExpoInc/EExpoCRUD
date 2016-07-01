@@ -9,7 +9,6 @@ import eexpocrud.CrudfyUtils;
 import eexpocrud.cfg.EExpoButtonCfg.ButtonBootstrapCssClass;
 import eexpocrud.cfg.EExpoGroupBtn.DuplicateNameActionButtonException;
 import eexpocrud.dao.impl.jpa.two.JpaDAO;
-import eexpocrudOLD.Crudfy;
 
 
 @SuppressWarnings("serial")
@@ -91,19 +90,19 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 //		final CrudfyBO<E> bo = new CrudfyBO<>(jpaDao.em, jpaDao.entityClass);
 		
 		this.listPageCfg.groupBtn.createBtn(new EExpoButtonCfg<E>("create", Glyphicon.plus,
-				new ActionEntityPrepared<E>("crudfyCreate") {
+				new ActionEntityPrepared<E>("./crudfyCreatePrepare.jsp") {
 				@Override
 				public E action() {
 					bo.create(entity);
 					return entity;
-				}
+				} 
 				}).buttonCssClass(ButtonBootstrapCssClass.success));
 		
 		this.listPageCfg.groupBtn.readBtn(new EExpoRowButtonCfg<E>("read", new ActionEntityPrepared<E>("./crudfyRead.jsp") {
 			@Override
 			public E action() {
 				return null;
-//				return bo.read(entityId);
+//				return bo.read(entityId);x
 			}
 		}));
 		
@@ -116,11 +115,11 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 //				});
 
 		
-
+		
 		
 		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", Glyphicon.edit,
 				new ActionEntityPrepared<E>("./crudfyUpdatePrepare.jsp") {
-					@Override
+					@Override 
 					public E action() {
 						this.bo.update(this.entity);
 						return this.entity;
@@ -135,7 +134,7 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 				new EExpoRowButtonCfg<E>("delete", Glyphicon.remove_sign, new ActionEntityPrepared<E>(
 						"./crudfyDeletePrepare.jsp") {
 					@Override
-					public E action() {
+					public E action() { 
 						this.bo.delete(this.entity);
 						return this.entity;
 					}

@@ -11,7 +11,6 @@ public class EExpoGroupBtn<E> implements Serializable {
 	EExpoRowButtonCfg<E> readBtn, updateBtn, deleteBtn;
 	public Map<String, EExpoButtonCfg<E>> actionName_Btn = new LinkedHashMap<String, EExpoButtonCfg<E>>();
 	
-	protected ArrayList<EExpoButtonCfg<E>> addtionalBtns = new ArrayList<>();
 	protected ArrayList<EExpoButtonCfg<E>> headerBtns = new ArrayList<>();
 	protected ArrayList<EExpoRowButtonCfg<E>> rowBtns = new ArrayList<>();
 	public EExpoButtonCfg<E> lineBtn;
@@ -64,6 +63,10 @@ public class EExpoGroupBtn<E> implements Serializable {
 	
 	public ArrayList<EExpoRowButtonCfg<E>> rowBtns(){
 		return this.rowBtns;
+	}
+
+	public ArrayList<EExpoButtonCfg<E>> headerBtns(){
+		return this.headerBtns;
 	}
 	
 	

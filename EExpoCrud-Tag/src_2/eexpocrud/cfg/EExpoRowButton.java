@@ -1,16 +1,16 @@
 package eexpocrud.cfg;
 
-public class EExpoButton<E > {
+public class EExpoRowButton<E > {
 	public EExpoRowButtonCfg<E> cfg;
 	private E entity;
 	
-	public EExpoButton(EExpoRowButtonCfg<E> cfg, E entity) {		
+	public EExpoRowButton(EExpoRowButtonCfg<E> cfg, E entity) {		
 		this.cfg = cfg;
 		this.entity = entity;		
 	}
 	
 	public boolean visible(){
-		this.cfg.actualEntityRow= entity;
+		this.cfg.actualEntityRow= entity; 
 		return this.cfg.visibleCond.execute();
 	}
 	

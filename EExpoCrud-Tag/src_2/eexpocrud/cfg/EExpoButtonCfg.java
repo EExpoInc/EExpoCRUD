@@ -25,9 +25,13 @@ public class EExpoButtonCfg<E> implements Serializable{
 	
 	public static enum ButtonBootstrapCssClass {
 		primary, success, info, warning, danger;
-		String toPrint = "btn btn-xs btn-";
+		String toPrint = "btn btn-";
 		private ButtonBootstrapCssClass() {
 			this.toPrint += this.name();
+		}
+		
+		public String xs(){
+			return this + " btn-xs ";
 		}
 		
 		@Override

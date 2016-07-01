@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eexpocrud.CrudfyUtils;
+import eexpocrud.CrudfyUtils.GenericParseException;
 import eexpocrud.bo.CrudfyBO;
 import eexpocrud.cfg.ActionPrepared;
 import eexpocrud.cfg.EExpoButtonCfg;
@@ -33,20 +34,40 @@ public class CrudfyData {
 		this.response = response;
 		
 		
-//		System.out.println(request.getQueryString());
-//		System.out.println(request.getParameterMap());
 		CrudfyUtils.populate(request.getParameterMap(), this);
 		this.bo = new CrudfyBO(resolveEExpoCrudCfg(request, response).jpaDao.em, resolveEExpoCrudCfg(request, response).jpaDao.entityClass);
-		
-		this.entityIdObj = CrudfyUtils.parseFromString(this.entityId, resolveEExpoCrudCfg(request, response).jpaDao.idClass);
 		this.entityClass = eexpoCrudCfg.jpaDao.entityClass;
-
 		EExpoButtonCfg<?> btnCfg =  eexpoCrudCfg.listPageCfg.groupBtn.actionName_Btn.get(act);
-		
 		ActionPrepared<? extends Object> ap ;
 		btnCfg.invokable.bo = bo;
-		btnCfg.invokable.entityId = entityIdObj;
-		btnCfg.invokable.entity(bo.read(btnCfg.invokable.entityId));
+		
+		
+		
+		
+		try{
+			this.entityIdObj = CrudfyUtils.parseFromString(this.entityId, resolveEExpoCrudCfg(request, response).jpaDao.idClass);
+			btnCfg.invokable.entityId = entityIdObj;
+			btnCfg.invokable.entity(bo.read(btnCfg.invokable.entityId));
+
+		}catch(GenericParseException e){
+			 this.entityIdObj = null;
+			 try {
+				this.entity = this.entityClass.newInstance();
+				btnCfg.invokable.entityId = null;
+				btnCfg.invokable.entity(this.entity);
+			} catch (InstantiationException | IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
+		
+
+		
+		
+
+		
 		
 		if(prepare){
 			ap =  (ActionPrepared<?>) btnCfg.invokable; 	
