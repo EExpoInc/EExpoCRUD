@@ -30,10 +30,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <link
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	href="./resources/bootstrap-3.3.6-dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	src="./resources/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
 <title>EExpoCRUD</title>
 </head>
 <body>

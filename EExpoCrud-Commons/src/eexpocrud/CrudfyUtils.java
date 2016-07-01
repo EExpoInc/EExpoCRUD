@@ -34,7 +34,7 @@ import eexpocrud.CrudAnnotation.Show;
 public class CrudfyUtils {
 	public static final String INPUT_ORIGINAL_SUFIX = "_ORIGINAL";
 	public static final String VALUEOF_METHOD = "valueOf";
-	public static final String PATTERN_DATE = "YYYY-MM-dd";
+	public static final String PATTERN_DATE = "yyyy-MM-dd";
 //	public static final String DATE_FORMAT = "YYYY-MM-DD_hh:mm:ss";
 	public static final String PATTERN_FULLDATE = PATTERN_DATE + "_hh:mm:ss";
 	public static final SimpleDateFormat universalDateFormat = new SimpleDateFormat(PATTERN_DATE);
@@ -467,13 +467,12 @@ public class CrudfyUtils {
 //		BeanUtil.setPropertyForcedSilent(emptyBean, fieldName, fieldValue);
 		try {
 			if(emptyBean.getClass().getField(fieldName).getType().equals(Date.class)){
-				fieldValue = (new SimpleDateFormat(PATTERN_FULLDATE)).parse(fieldValue.toString());
+				fieldValue = universalFullDateFormat.parse(fieldValue.toString());
 			} 
 		} catch (NoSuchFieldException | SecurityException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		BeanUtil.setDeclaredPropertySilent(emptyBean, fieldName, fieldValue);
 	}

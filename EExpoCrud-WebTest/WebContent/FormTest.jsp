@@ -37,7 +37,7 @@ if(entity == null){
 
 
 		
-		<ex:formBase bean="<%=entity%>" /> 
+		<ex:formBase bean="<%=entity%>"  action=""/> 
 
 
 
