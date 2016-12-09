@@ -1,0 +1,332 @@
+
+
+
+
+
+
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+
+
+
+
+
+
+<html> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> 
+<script type="text/javascript" src="./bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+ <link href="./bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+
+
+	<title>Test Form</title>
+</head>
+<body> 
+ 	
+	<div class="container">
+		<div class="row">
+			<h3>Update</h3>
+		</div>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ <style>
+div.group {
+	border: 1px solid #ccc;
+	padding: 1em;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	
+}
+div.group > div.group-inner{
+	height:10em;
+	overflow:scroll;
+	border: 1px solid #eee;
+	border-radius: 4px;
+	padding: 0.5em;
+}
+div.group label{
+	display: block;
+}
+
+div.group div.checkbox label:HOVER, div.group div.radio label:HOVER{
+	display: block;
+	background-color: #f8fafd;
+	border-radius: 4px;
+	
+}
+
+
+</style>
+  
+<!--  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> 
+<script type="text/javascript" src="./bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+ <link href="./bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+ -->
+<!-- START EExpoFORM  -->
+
+<form role="form" action="/EExpoCrud-WebTest/CrudfyServlet?crudCfgId=EExpoCrudCfg_EExpoCrudWebTestUserEntityTestjsp&act=update&entityId=3" method="post" accept-charset="UTF-8"  enctype="application/x-www-form-urlencoded">
+ 
+
+
+
+
+
+
+	<div class="form-group">
+		<label for="eexpofield_id-72">id</label>  
+		<input type="text" class="form-control" 
+				id="eexpofield_id-72"
+				readonly 
+				value="3" name="id">
+	</div>
+
+
+ 
+
+
+
+
+	<div class="form-group">
+		<label for="eexpofield_nome-92">nome</label>  
+		<input type="text" class="form-control" 
+				id="eexpofield_nome-92"
+				 
+				value="Nome Usuario 3" name="nome">
+	</div>
+
+
+ 
+
+
+
+
+	<div class="form-group">
+		<label for="eexpofield_anoNasc-46">anoNasc</label>  
+		<input type="text" class="form-control" 
+				id="eexpofield_anoNasc-46"
+				 
+				value="80" name="anoNasc">
+	</div>
+
+
+ 
+
+
+
+
+	<div class="form-group">
+		<label for="eexpofield_end-25">end</label>  
+		<input type="text" class="form-control" 
+				id="eexpofield_end-25"
+				 
+				value="rua Wed May 12 04:58:21 BRT 1971" name="end">
+	</div>
+
+
+ 
+
+
+
+
+	<div class="form-group">
+		<label for="eexpofield_bio-92">bio</label>  
+		<input type="text" class="form-control" 
+				id="eexpofield_bio-92"
+				 
+				value="minha bioWed May 12 04:58:21 BRT 1971" name="bio">
+	</div>
+
+
+ 
+
+
+
+
+
+			<div class="form-group">
+                <label for="dtp_input2">Date Picking</label>
+                <div class="input-group date form_date" 
+                	data-date="" data-date-format="yyyy-mm-dd_hh:ii:ss" data-min-view="2">
+                    <input class="form-control" size="16" type="text" value="1972-12-30_17:59:10" >
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+            </div>
+
+
+<div class="form-group">
+	<label for="eexpofield_dataCadastro-43">dataCadastro</label>
+	
+	
+	
+	
+
+	
+</div>
+
+
+
+
+
+<script type="text/javascript">
+$('.form_date').datetimepicker({
+	
+});
+	</script>
+
+ 
+
+
+
+<div class="control-group group" > 
+<label>sexo</label>  
+
+
+
+<div class="radio">
+	<label><input type="radio" name="sexo" 
+		
+		
+		value="NA">NA</label>
+</div>
+
+
+<div class="radio">
+	<label><input type="radio" name="sexo" 
+		
+		checked
+		value="M">M</label>
+</div>
+
+
+<div class="radio">
+	<label><input type="radio" name="sexo" 
+		
+		
+		value="F">F</label>
+</div>
+
+</div>
+
+
+
+ 
+
+
+
+<div class="form-group">
+	
+      <label for="eexpofield_idDept-42">idDept</label>
+      <select class="form-control"
+      		 
+      		id="eexpofield_idDept-42" 
+      		name="idDept" >
+
+	       <option value="0" selected>
+	       			Label 0
+	       </option>
+
+	       <option value="1" >
+	       			Label 1
+	       </option>
+
+	       <option value="2" >
+	       			Label 2
+	       </option>
+
+	       <option value="3" >
+	       			Label 3
+	       </option>
+
+	       <option value="4" >
+	       			Label 4
+	       </option>
+
+	       <option value="5" >
+	       			Label 5
+	       </option>
+
+	       <option value="6" >
+	       			Label 6
+	       </option>
+
+	       <option value="7" >
+	       			Label 7
+	       </option>
+
+	       <option value="8" >
+	       			Label 8
+	       </option>
+
+	       <option value="9" >
+	       			Label 9
+	       </option>
+
+	       <option value="10" >
+	       			Label 10
+	       </option>
+
+	       <option value="11" >
+	       			Label 11
+	       </option>
+
+	       <option value="12" >
+	       			Label 12
+	       </option>
+
+	       <option value="13" >
+	       			Label 13
+	       </option>
+
+	       <option value="14" >
+	       			Label 14
+	       </option>
+
+	
+	</select>
+</div>
+
+ 
+<div class="form-group text-right">
+ 
+ <button type="submit" class="btn btn-success ">Confirm</button>
+ 
+ </div>
+ 
+</form>
+<!-- END EExpoFORM  -->
+
+
+		
+	</div>
+</body>
+</html>
