@@ -35,8 +35,10 @@ public class CrudfyUtils {
 	public static final String INPUT_ORIGINAL_SUFIX = "_ORIGINAL";
 	public static final String VALUEOF_METHOD = "valueOf";
 	public static final String PATTERN_DATE = "yyyy-MM-dd";
+	public static final String PATTERN_DATE_JS = "YYYY-MM-DD";
 //	public static final String DATE_FORMAT = "YYYY-MM-DD_hh:mm:ss";
-	public static final String PATTERN_FULLDATE = PATTERN_DATE + "_hh:mm:ss";
+	public static final String PATTERN_FULLDATE = PATTERN_DATE + "_HH:mm:ss";
+	public static final String PATTERN_FULLDATE_JS = PATTERN_DATE_JS + "_HH:mm:ss";
 	public static final SimpleDateFormat universalDateFormat = new SimpleDateFormat(PATTERN_DATE);
 	public static final SimpleDateFormat universalFullDateFormat = new SimpleDateFormat(PATTERN_FULLDATE);
 	
@@ -413,6 +415,46 @@ public class CrudfyUtils {
 		
 	}
 	
+	
+	
+	/**
+	 * Faz a transfusao dos valores do bean <code>Original</code> p o bean <code>Receptor</code>. 	 
+	 * @param receptor
+	 * @param original
+	 */
+	public static <R extends Object, O extends Object> void beanTransfusionForce(R receptor, O original) {
+		@SuppressWarnings("rawtypes")
+		Class oc = original.getClass();
+		Class rc = receptor.getClass();
+		Field[] oFields = oc.getFields();
+		List<Field> cFields = Arrays.asList(receptor.getClass().getFields());
+		ArrayList<String> cFieldsName = new ArrayList<>();
+		for (Field f : cFields) {
+			cFieldsName.add(f.getName());
+		}
+		try {
+			
+		
+			
+			for (Field of : oFields) {
+				of.setAccessible(true);
+				if (cFieldsName.contains(of.getName())) {
+					Field cf = rc.getField(of.getName());
+					cf.setAccessible(true);
+					if (cf.getType().equals(of.getType())) {
+						cf.set(receptor, of.get(original));						
+					}
+				}
+			}
+		} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	
 	public static String urlfy(String input, String sep) {
 		return Normalizer.normalize(input, Normalizer.Form.NFD).replaceAll("|", sep)
 				.replaceAll("[^\\p{ASCII}]", sep).replaceAll("[^ \\w]", "").trim().replaceAll("\\s+", sep)
@@ -450,7 +492,7 @@ public class CrudfyUtils {
 	
 	public static  <B> B  populate(Map<String, String[]> parameterMap, B emptyBean) {
 		
-		Map<String, Object> param = prepareToJodd(parameterMap);
+		Map<String, Object> param = prepareToJodd(parameterMap);		
 		try{
 			BeanUtil.populateBean(emptyBean, param);	
 		}catch(BeanException e){
@@ -466,31 +508,65 @@ public class CrudfyUtils {
 	public static <B> void  populateField(B emptyBean, String fieldName, Object fieldValue) {
 //		BeanUtil.setPropertyForcedSilent(emptyBean, fieldName, fieldValue);
 		try {
-			if(emptyBean.getClass().getField(fieldName).getType().equals(Date.class)){
+//			System.out.println(emptyBean.getClass().getDeclaredField(fieldName).getType());
+			
+			if(emptyBean.getClass().getDeclaredField(fieldName).getType().equals(Date.class)){
 				fieldValue = universalFullDateFormat.parse(fieldValue.toString());
 			} 
 		} catch (NoSuchFieldException | SecurityException | ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		
 		BeanUtil.setDeclaredPropertySilent(emptyBean, fieldName, fieldValue);
 	}
 	
 	
+	private static <E> Map<String, Object>  prepareToJodd(Map<String, String[]> parameterMap, Class<E> entityClass) {
+		Map<String, Object> result = new LinkedHashMap<>();
+		for (String k : parameterMap.keySet()) {
+			try {
+								
+				if(!entityClass.getField(k).getType().equals(Date.class)){
+					result.put(k, prepareFieldToJodd(parameterMap.get(k)));
+				}else{
+					result.put(k, universalFullDateFormat.parse(parameterMap.get(k)[0]));
+				}
+			} catch (NoSuchFieldException | SecurityException | ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	
+	private static Object prepareFieldToJodd(String [] vs){
+		Object result;
+		if (vs.length == 1) {
+			result =  vs[0];
+		} else {
+			result = vs;
+		}
+		if (result.equals("")) {
+			result = null;
+		}
+		
+		return result;
+	}
 	
 	private static Map<String, Object> prepareToJodd(Map<String, String[]> parameterMap) {
 		Map<String, Object> result = new LinkedHashMap<>();
 		for (String k : parameterMap.keySet()) {
-			String[] vs = parameterMap.get(k);
-			if (vs.length == 1) {
-				result.put(k, vs[0]);
-			} else {
-				result.put(k, vs);
-			}
-			if (result.get(k).equals("")) {
-				result.put(k, null);
-			}
+			result.put(k, prepareFieldToJodd(parameterMap.get(k)));
+			
+//			String[] vs = parameterMap.get(k);
+//			if (vs.length == 1) {
+//				result.put(k, vs[0]);
+//			} else {
+//				result.put(k, vs);
+//			}
+//			if (result.get(k).equals("")) {
+//				result.put(k, null);
+//			}
 		}
 		return result;
 	}
@@ -513,6 +589,36 @@ public class CrudfyUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	
+	static class original{
+		public String nome;
+		public String id;
+		public String data;
+	}
+	
+	static class clone{
+		public String nome;
+		public String id;
+		public String data;
+	}
+
+	
+	public static void main(String[] args) {
+		
+		original o = new original(){{
+			this.nome="meunome";
+			this.id="meuid";
+			this.data="minha data";
+		}};  
+		
+		clone c = new clone();
+		System.out.println(c.getClass().getFields().length);
+		beanTransfusionForce(c, o);
+		System.out.println(c);
+		
 	}
 	
 //	public static void simpleDispatch(String path, HttpServletRequest req, HttpServletResponse res)

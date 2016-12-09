@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/commons-collections-3.2.1.jar"/>
@@ -9,14 +14,19 @@
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/javax.persistence_2.1.0.v201304241213.jar"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/objectify-5.1.5.jar"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/javatuples-1.2.jar"/>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/j2html-0.7.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
+			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/EExpoCrud-Libs/jodd-3.6.6.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
