@@ -1,5 +1,8 @@
 package eexpocrud.action;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +36,13 @@ public class CrudfyData {
 		this.request = request;
 		this.response = response;
 		
+		try {
+			request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+		} catch (UnsupportedEncodingException e2) {
+
+//			e2.printStackTrace();
+		}
 		
 		CrudfyUtils.populate(request.getParameterMap(), this);
 		this.bo = new CrudfyBO(resolveEExpoCrudCfg(request, response).jpaDao.em, resolveEExpoCrudCfg(request, response).jpaDao.entityClass);

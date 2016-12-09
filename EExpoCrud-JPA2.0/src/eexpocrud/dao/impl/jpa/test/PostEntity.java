@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +23,7 @@ public class PostEntity implements Serializable {
 	}
 	
 	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
 	
 	public String title;
@@ -31,7 +34,7 @@ public class PostEntity implements Serializable {
 	public STATUS status;
 
 	@Temporal(TemporalType.TIME)
-	Date dateCreate;
+	public Date dateCreate;
 	
 	public String authorEmail;
 	

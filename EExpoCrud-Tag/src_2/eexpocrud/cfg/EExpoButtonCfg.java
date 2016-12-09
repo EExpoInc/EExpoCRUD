@@ -23,6 +23,10 @@ public class EExpoButtonCfg<E> implements Serializable{
 		row, top
 	}
 	
+	public static enum BootstrapDefaultColor{
+		primary, success, info, warning, danger;
+	}
+	
 	public static enum ButtonBootstrapCssClass {
 		primary, success, info, warning, danger;
 		String toPrint = "btn btn-";
@@ -116,8 +120,20 @@ public class EExpoButtonCfg<E> implements Serializable{
 		return req.getContextPath()+"/"+CrudfyServlet.servletName()+"?" + crudCfgIdParam +"&" +actNameParam;
 	}
 	
+	
+	public String linkPrepare(HttpServletRequest req){
+		return this.linkPrepare(null, req);
+		
+	}
+	
 	public String linkPrepare(Object id, HttpServletRequest req){
-		String result = this.link(id, req);
+		String result;
+		if(id != null){
+			result = this.link(id, req);	
+		}else{
+			result = this.link(req);
+		}
+		
 		
 		if (this.invokable instanceof ActionEntityPrepared || this.invokable instanceof ActionPrepared) {
 			result += "&" + CrudfyServlet.PARAMS.prepare + "="+true;

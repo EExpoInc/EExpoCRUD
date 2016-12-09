@@ -19,8 +19,8 @@
 
 <%@page import="test.FilterImgUrlEntityDAOImpl"%>
 <%@page import="test.FilterImgUrlEntity"%>
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-	pageEncoding="US-ASCII"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@taglib prefix="crudfy" uri="http://eexponews.com/crudfy"%>
 
@@ -28,13 +28,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<link
-	href="./resources/bootstrap-3.3.6-dist/css/bootstrap.min.css"
+<!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+<!-- <script src="./resources/jquery-2.2.4.min.js"></script>
+<link href="./resources/bootstrap-3.3.6-dist/css/bootstrap.css"
 	rel="stylesheet">
 <script
 	src="./resources/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-<title>EExpoCRUD</title>
+ -->
+ 
+ 
+ <%@include file="resources/resourcesJsCss.jsp"%>
+ 
+ <title>EExpoCRUD</title>
 </head>
 <body>
 
@@ -84,8 +89,9 @@
 						public UserEntity action() {
 							System.err.println(this.entity.id+ ":id - final EExpoRowButtonCfg<UserEntity> myCustomBtn2 :) ");
 							return null;
-						}
-					}) ; 
+						}												
+					}) ;  
+					
 			myCustomBtn2.buttonCssClass = ButtonBootstrapCssClass.success;
 			myCustomBtn2.cssIcon = Glyphicon.star_empty;
 			

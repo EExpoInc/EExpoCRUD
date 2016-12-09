@@ -1,3 +1,4 @@
+<%@tag import="eexpocrud.action.ListActionData.CrudRowObj"%>
 <%@tag import="eexpocrud.cfg.EExpoHeaderButton"%>
 <%@tag import="eexpocrud.cfg.EExpoRowButton"%>
 <%@tag import="eexpocrud.action.CrudfyServlet"%>
@@ -6,7 +7,6 @@
 <%@tag import="eexpocrud.action.ListAction"%>
 <%@tag import="java.security.SecureRandom"%>
 <%@tag import="java.util.Random"%>
-<%@tag import="eexpocrud.action.ListActionData.CrudObj"%>
 <%@tag import="java.lang.reflect.Field"%>
 <%@tag import="eexpocrud.action.ListActionData"%>
 <%@tag import="eexpocrud.dao.impl.jpa.two.JpaDAO"%>
@@ -19,9 +19,9 @@
  
  <!-- START EExPOCRUD  -->
   
- <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" > </script>
+<!--  <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" > </script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
- 
+ --> 
 
 <style>
 
@@ -78,7 +78,8 @@
 						<a href="#" class="btn <%=btn.cfg.buttonCssClass%>"						
 							data-toggle="modal" 
 							data-target="#<%=modalId%>" 
-							data-iframe-src="<%=btn.cfg.link(request)%>" 
+							<%-- data-iframe-src="<%=btn.cfg.link(request)%>" --%> 
+							data-iframe-src="<%=btn.cfg.linkPrepare(request) %>"
 							title="<%=btn.cfg.name%>">
 								<span class="glyphicon glyphicon-plus"></span> <%=btn.cfg.name%>
 						</a> 
@@ -111,12 +112,12 @@
 						</tr>	
 					</thead>
 					<tbody>		
-						<%for(CrudObj<?> obj: data.id_objMap.values()){%>
-																		  
+						<%for(CrudRowObj<?,?> obj: data.id_objMap.values()){%>																		  
 																		 
-							<tr class="small crudfyRow" title="Read" data-iframe-src= "<%=tagHelper.cfg.listPageCfg().groupBtn.lineBtn.linkPrepare(obj.id, request)%>" >
-								<td class="text-center col-lg-1  col-md-1  col-xs-2 ">
-																							  
+							<tr class="small crudfyRow <%=obj.color() == null ? "" : obj.color() %>" title="Read" 
+								data-iframe-src= "<%=tagHelper.cfg.listPageCfg().groupBtn.lineBtn.linkPrepare(obj.id, request)%>" >
+							
+								<td class="text-center col-lg-1  col-md-1  col-xs-2 ">																							  
 									<% for(EExpoRowButtonCfg<?> btnCfg : tagHelper.cfg.listPageCfg().groupBtn.rowBtns()){
 										EExpoRowButton<?> btn = new EExpoRowButton((EExpoRowButtonCfg)btnCfg, data.id_entityMap.get(obj.id));
 										if(btn.visible()){%> 											

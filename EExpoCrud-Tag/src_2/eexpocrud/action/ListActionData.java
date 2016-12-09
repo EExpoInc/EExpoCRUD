@@ -11,25 +11,57 @@ import java.util.TreeMap;
 
 import eexpocrud.CrudAnnotation.DisplayType;
 import eexpocrud.CrudfyUtils;
+import eexpocrud.cfg.ConditionalRowColorI;
+import eexpocrud.cfg.EExpoRowButtonCfg;
+import eexpocrud.cfg.EExpoButtonCfg.BootstrapDefaultColor;
 
 public class ListActionData<E extends Object, ID extends Comparable<ID>> {
 	public ArrayList<Field> fields = new ArrayList<Field>();
-	public Map<ID, CrudObj<ID>> id_objMap = new TreeMap<ID, CrudObj<ID>>();
+	public Map<ID, CrudRowObj<E, ID>> id_objMap = new TreeMap<ID, CrudRowObj<E,ID>>();
 	public Map<ID, E> id_entityMap = new TreeMap<>();
 	public Class<E> entityClass;
 	
 	public boolean hitBegin = false;
 	public boolean hitEnd = false;
 	
-	public static class CrudObj <ID>{
+	
+	
+	public static class CrudRowObj <E, ID>{
 		public  ID id;
+		public E entity;
 		public HashMap<String, String> field_ValueMap = new LinkedHashMap<String, String>();
 		
+
+		
+		ConditionalRowColorI conditionalRowColor;
+		BootstrapDefaultColor rowColor;
+
 		
 		public String idEscaped(){
 			
 			return CrudfyUtils.encodeToURL(this.id);
 		}
+		
+		
+		public CrudRowObj <E, ID> color(BootstrapDefaultColor color) {
+			this.rowColor = color;
+			return this;
+		}
+
+		public CrudRowObj <E, ID> color(ConditionalRowColorI cond) {
+			this.conditionalRowColor = cond;
+			return this;
+		}
+		
+		public BootstrapDefaultColor color(){
+			if(this.conditionalRowColor != null){
+				return this.conditionalRowColor.execute();
+			}else{
+				return this.rowColor;
+			}
+		}
+
+		
 //		public ID id(){
 //			return this.id;
 ////			return HtmlEncoder.text(this.id+"");
@@ -46,7 +78,7 @@ public class ListActionData<E extends Object, ID extends Comparable<ID>> {
 	private void populateRow(List<E> list) {
 //		CrudfyTagHelper<?, String> tagHelper2 = new CrudfyTagHelper<String,String>(null, null, null);
 		for (E e : list) {
-			CrudObj<ID> obj = createCrudObj(e);
+			CrudRowObj<E,ID> obj = createCrudObj(e);
 			this.id_objMap.put((ID) obj.id, obj);
 			this.id_entityMap.put(obj.id, e);
 		}
@@ -64,12 +96,11 @@ public class ListActionData<E extends Object, ID extends Comparable<ID>> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private CrudObj<ID> createCrudObj(E entity) {
-		CrudObj<ID> result = new CrudObj<ID>();
-		 
+	private CrudRowObj<E,ID> createCrudObj(E entity) {
+		CrudRowObj<E,ID> result = new CrudRowObj<E,ID>();
+		result.entity = entity;
 		for (Field field : fields) {
-			try {
-				
+			try {				
 				if (field.get(entity) != null) {
 					if(field.getType().equals(Date.class)){
 						Date d = (Date) field.get(entity);						

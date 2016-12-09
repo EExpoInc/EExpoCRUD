@@ -20,8 +20,8 @@
 
 <%@page import="test.FilterImgUrlEntityDAOImpl"%>
 <%@page import="test.FilterImgUrlEntity"%>
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-	pageEncoding="US-ASCII"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@taglib prefix="crudfy" uri="http://eexponews.com/crudfy"%>
 
@@ -29,13 +29,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+<!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <link
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<title>Crud Filter</title>
+ -->
+ <%@include file="resources/resourcesJsCss.jsp"%>
+ 
+ <title>Crud Filter</title>
 </head>
 <body>
 
@@ -71,7 +75,7 @@
 			coracaoBtn.visible(new ConditionalI() {
 				@Override
 				public boolean execute() {
-					return coracaoBtn.actualEntityRow.id < 8 ? true : false;
+					return coracaoBtn.actualEntityRow.id < 28 ? true : false;
 				}
 			});	
 			coracaoBtn.cssIcon = Glyphicon.heart;
@@ -108,17 +112,17 @@
 			fogoBtn.visible(new ConditionalI() {
 				@Override
 				public boolean execute() {
-					return fogoBtn.actualEntityRow.id > 4 & fogoBtn.actualEntityRow.id < 20 ? true : false;
+					return fogoBtn.actualEntityRow.id > 4 & fogoBtn.actualEntityRow.id < 30 ? true : false;
 				}
 			}).disable(new ConditionalI() {
 				public boolean execute() {
-					return fogoBtn.actualEntityRow.id > 9 ? true : false;
+					return fogoBtn.actualEntityRow.id > 20 ? true : false;
 				}
 			});
 			
 			cfg.listPageCfg().groupBtn.addRowBtns(fogoBtn);
-			cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 3);
-			cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 33);
+			cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.gt, 9);
+			/* cfg.listPageCfg().queryCfg.addWhere("id", WhereEnum.le, 93); */
 			cfg.listPageCfg().queryCfg.addWhere("status", WhereEnum.notIn, PostEntity.STATUS.restrito,
 					PostEntity.STATUS.castigo);
 			

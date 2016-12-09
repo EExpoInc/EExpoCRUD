@@ -2,8 +2,8 @@
 <%@page import="eexpocrud.action.CrudfyServlet"%>
 <%@page import="eexpoform.FormBase"%>
 <%@page import="eexpoforms.test.Main"%>
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
  
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -24,7 +24,7 @@
 <script type="text/javascript" src="./bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
  <link href="./bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
  -->
-
+<%@include file="resources.jsp" %>
 
 	<title>Test Form</title>
 </head>

@@ -17,7 +17,10 @@ public class CrudfyBO <E> implements Serializable{
 	}
 	
 	public void create(Object obj) {
-		
+		this.em.getTransaction().begin();
+		this.em.persist(obj);
+		this.em.getTransaction().commit();
+	
 	}
 	
 	public void list(CrudfyNavDataInput nav) {

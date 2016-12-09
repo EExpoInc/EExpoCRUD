@@ -24,6 +24,7 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	
 	public Class<? extends E> viewClass;
 	
+	//TODO: colocar o actionable da row aqui
 	
 	
 	public EExpoCrudCfg(HttpServletRequest req, HttpServletResponse resp, JpaDAO<E, ID> jpaDao) throws DuplicateNameActionButtonException {
@@ -93,10 +94,12 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 				new ActionEntityPrepared<E>("./crudfyCreatePrepare.jsp") {
 				@Override
 				public E action() {
+					
 					bo.create(entity);
 					return entity;
 				} 
 				}).buttonCssClass(ButtonBootstrapCssClass.success));
+		
 		
 		this.listPageCfg.groupBtn.readBtn(new EExpoRowButtonCfg<E>("read", new ActionEntityPrepared<E>("./crudfyRead.jsp") {
 			@Override
@@ -105,15 +108,6 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 //				return bo.read(entityId);x
 			}
 		}));
-		
-//		final EExpoRowButtonCfg<E> updateBtn = new EExpoRowButtonCfg<>("update", "glyphicon glyphicon-edit",
-//				new ActionableI<E>() {
-//					@Override
-//					public E action() {
-//						return null;
-//					}
-//				});
-
 		
 		
 		

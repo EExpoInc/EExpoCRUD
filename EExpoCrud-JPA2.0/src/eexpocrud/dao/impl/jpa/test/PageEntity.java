@@ -22,5 +22,5 @@ public class PageEntity implements Serializable{
 	String bodyContent;
 	
 	@Temporal(TemporalType.DATE)
-	Date dataCadastro;
+	public Date dataCadastro;
 }

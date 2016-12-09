@@ -9,6 +9,7 @@ public class EExpoRowButtonCfg<E> extends EExpoButtonCfg<E> {
 	ConditionalI disableCond;
 	ConditionalI visibleCond;
 	public E actualEntityRow;
+	
 
 	
 	
@@ -69,6 +70,9 @@ public class EExpoRowButtonCfg<E> extends EExpoButtonCfg<E> {
 		this.visibleCond = new ConditionalDefault(b);
 		return this;
 	}
+	
+
+	
 	
 	
 	public E actualEntityRow(){
