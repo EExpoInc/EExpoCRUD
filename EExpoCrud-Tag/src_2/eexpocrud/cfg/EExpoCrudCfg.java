@@ -18,12 +18,12 @@ public class EExpoCrudCfg<E extends Serializable, ID extends Comparable<ID>> imp
 	public String id;
 	public ListPageCfg<E, ID> listPageCfg;
 	public JpaDAO<E, ID> jpaDao;
-//	private String persistenceUnit; 
+//	private String persistenceUnit;x 
 	protected transient HttpServletRequest req;
 	protected transient HttpServletResponse resp;
-	
+	 
 	public Class<? extends E> viewClass;
-	
+	    
 	//TODO: colocar o actionable da row aqui
 	
 	
