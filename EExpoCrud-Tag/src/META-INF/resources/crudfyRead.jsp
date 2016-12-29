@@ -32,7 +32,7 @@
  	
 	<div class="container">
 		<div class="row">
-			<h3>Read</h3>
+			<!-- <h3>Read</h3> -->
 		</div>
 		<ex:formBase bean="<%=entity%>" action="<%=actionForm%>" readOnly="<%=true %>"/>
 		

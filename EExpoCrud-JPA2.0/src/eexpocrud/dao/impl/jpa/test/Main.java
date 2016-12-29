@@ -15,6 +15,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import eexpocrud.dao.impl.jpa.JpaDAO;
+import eexpocrud.dao.impl.jpa.test.ChannelEntity.ChannelId;
 
 public class Main {
 	private static final String PERSISTENCE_UNIT_NAME = "EExpoCrud-JPA2.0";
@@ -43,7 +44,7 @@ public class Main {
 
 	
 	
-	public static void main(String[] args) {
+	public static void main6(String[] args) {
 //		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 //	    EntityManager em = factory.createEntityManager();
 	    
@@ -53,12 +54,9 @@ public class Main {
 	    for (int j = 0; j < 100; j++) {
 	    	try{
 			    pageDao.em.getTransaction().begin();
-			    for (int i = 0; i < 100000; i++) {
+			    for (int i = 0; i < 10; i++) {
 			    	pageDao.em.persist(genPage());
-			    	if(i%10000 == 0){
-			    		System.out.println("Inserindo : "+ i);	
-			    	}
-			    	
+			    	System.out.println("Inserindo : "+ i);
 				}
 			    pageDao.em.getTransaction().commit();	
 	    	}catch(Exception e){
@@ -108,6 +106,14 @@ public class Main {
 	}
 	
 	
+	public static void main(String[] args) { 
+		
+		JpaDAO<ChannelEntity, ChannelId> channelDao = new JpaDAO<>(ChannelEntity.class, ChannelId.class, PERSISTENCE_UNIT_NAME, 42);
+		
+		
+	}
+	
+	
 	public static void main4(String[] args) {
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	    EntityManager em = factory.createEntityManager();
@@ -147,10 +153,10 @@ public class Main {
 	
 	private static PageEntity genPage(){
 		PageEntity pe = new PageEntity();
-		long r = (long)(Math.random()*10000000L );
+		long r = (long)(Math.random()*100000L );
 		long r2 = (long)(Math.random()*1000000000000000L );
-		pe.url = "http://eexponews.org/url/id_"+ r +"-"+ r2;
-		pe.title = "Titulo "+r;
+		pe.url = "https://eexponews.org/url/id_"+ r +"-"+ r2;
+		pe.title = "xx Titulo "+r;
 		pe.dataCadastro =  new Date(System.currentTimeMillis() - (r));
 		return pe;
 		

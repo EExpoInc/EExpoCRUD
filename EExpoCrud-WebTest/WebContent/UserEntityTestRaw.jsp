@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-
-<%@page import="org.apache.tomcat.util.http.ContentType"%>
+<!DOCTYPE html> 
+ 
 <%@page import="eexpocrud.dao.impl.jpa.test.UserEntity"%>
 <%@page import="eexpocrud.cfg.EExpoCrudCfg"%>
 <%@page import="eexpocrud.dao.impl.jpa.test.PostEntity"%>

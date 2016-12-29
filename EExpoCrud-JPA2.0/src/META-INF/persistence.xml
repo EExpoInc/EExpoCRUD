@@ -2,11 +2,13 @@
 <persistence version="2.0"
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	
+	
 	<persistence-unit name="EExpoCrud-JPA2.0">
 		<class>eexpocrud.dao.impl.jpa.test.PageEntity</class>
 		<class>eexpocrud.dao.impl.jpa.test.PostEntity</class>
 		<class>eexpocrud.dao.impl.jpa.test.UserEntity</class>
-
+		
 		<properties>
 <!-- 			<property name="javax.persistence.schema-generation.database.action"
 				value="create" />
@@ -21,7 +23,7 @@
 
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC" />
 			<property name="eclipselink.jdbc.batch-writing.size" value="1000" />
-			<property name="eclipselink.query-results-cache" value="false"/>
+			<property name="eclipselink.query-results-cache" value="false"/>			
 			
 <!-- 			 <property name="eclipselink.logging.level" value="FINE" /> 
 			 <property name="eclipselink.logging.level.sql" value="FINE"/>

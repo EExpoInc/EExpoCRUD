@@ -112,10 +112,16 @@
 			fogoBtn.visible(new ConditionalI() {
 				@Override
 				public boolean execute() {
+					if(fogoBtn.actualEntityRow.id>40){
+						return true;
+					}
 					return fogoBtn.actualEntityRow.id > 4 & fogoBtn.actualEntityRow.id < 30 ? true : false;
 				}
 			}).disable(new ConditionalI() {
 				public boolean execute() {
+					if(fogoBtn.actualEntityRow.status == fogoBtn.actualEntityRow.status.emObs){
+						return false;
+					}
 					return fogoBtn.actualEntityRow.id > 20 ? true : false;
 				}
 			});

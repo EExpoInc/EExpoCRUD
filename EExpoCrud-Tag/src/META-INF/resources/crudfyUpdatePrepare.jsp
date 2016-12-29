@@ -33,7 +33,7 @@
  	
 	<div class="container">
 		<div class="row">
-			<h3>Update</h3>
+			<!-- <h3>Update</h3> -->
 		</div>
 		<ex:formBase bean="<%=entity%>" action="<%=actionForm%>"/>
 		

@@ -34,7 +34,7 @@
 
 	<div class="container">
 		<div class="row">
-			<h3>Delete</h3>
+			<!-- <h3>Delete</h3> -->
 		</div>
 		<ex:formBase bean="<%=entity%>" action="<%=actionForm%>" readOnly="<%=true %>"/>
 		

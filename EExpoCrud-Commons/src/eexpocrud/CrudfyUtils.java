@@ -367,8 +367,7 @@ public class CrudfyUtils {
 	
 	
 	public static boolean isIdField(Field field) {
-		if (field.isAnnotationPresent(CrudId.class) || field.isAnnotationPresent(Id.class)
-				|| field.isAnnotationPresent(com.googlecode.objectify.annotation.Id.class)) {
+		if (field.isAnnotationPresent(CrudId.class) || field.isAnnotationPresent(Id.class)) {
 			return true;
 		} else {
 			return false;
