@@ -13,7 +13,7 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-		</resources>
+		</resources> 
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
