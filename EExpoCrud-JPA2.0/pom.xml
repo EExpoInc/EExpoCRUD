@@ -51,11 +51,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<dependency>
-			<groupId>EExpoForm</groupId>
-			<artifactId>EExpoForm-Tag</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 
 	</dependencies>
